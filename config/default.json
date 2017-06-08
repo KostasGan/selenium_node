@@ -1,0 +1,11 @@
+{
+	"Env": {
+		"ngusrnm": "something", //Add UserName for nginex
+		"ngpass": "something", //Add UserName for nginex
+		"url": ""  //Add url for test  eg www.something.gr or staging.something.gr/
+	},
+	"User": {
+		"email": "something@something.com", //Add real user email
+		"pass":  "something" //Add real user pass
+	}
+}
