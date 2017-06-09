@@ -5,7 +5,9 @@ const assert = require('assert');
 //const login = require('./test_cases/logintest.js');
 //const register = require('./test_cases/register.js');
 //const logout = require('./test_cases/logout.js');
-const address = require('./test_cases/address.js')
+const address = require('./test_cases/address.js');
+const shoplist = require('./test_cases/shoplist.js');
+
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@' ;
@@ -37,6 +39,8 @@ test.describe('First Test Case',function(){
 
 		driver.get(url);
 
-		address.AddAddressAnonymous(driver,creds);
+		address.AddAddressAnonymous(driver,creds).then(()=>{
+			shoplist.GetShopList(driver);
+		});
 	})
 });
