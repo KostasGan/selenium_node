@@ -35,7 +35,7 @@ test.describe('First Test Case',function(){
 
 	test.it('Login Test', function(){
 
-		this.timeout(10000);
+		this.timeout(20000);
 
 		driver.get(url);
 
