@@ -6,7 +6,7 @@ exports.AddAddressAnonymous = (driver) => {
 
 	return driver.wait(until.elementIsVisible(address_field), 2000)
 	.then(() => {
-		address_field.sendKeys('Αριστείδου 1 Μαρούσι');
+		address_field.sendKeys('Λεωφόρος ηρακλείου 409 Ηράκλειο');
 		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),2000)
 		.then(() => { 
 			let suggest = driver.findElement(By.css('li.geosuggest-item.geosuggest-item'));
