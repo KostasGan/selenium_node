@@ -4,14 +4,14 @@ let {By,until} = require('selenium-webdriver');
 exports.AddAddressAnonymous = (driver) => {
 	let address_field = driver.findElement(By.css('input.geosuggest__input'));
 
-	return driver.wait(until.elementIsVisible(address_field), 2000)
+	return driver.wait(until.elementIsVisible(address_field), 5000)
 	.then(() => {
 		address_field.sendKeys('Λεωφόρος ηρακλείου 409 Ηράκλειο');
-		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),2000)
+		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),5000)
 		.then(() => { 
 			let suggest = driver.findElement(By.css('li.geosuggest-item.geosuggest-item'));
 			suggest.click()
-			return driver.wait(until.elementLocated(By.css('form.address')),2000)
+			return driver.wait(until.elementLocated(By.css('form.address')),5000)
 			.then(() => {
 				let confirm_btn = driver.findElement(By.id('submit_btn'));
 				confirm_btn.click();
