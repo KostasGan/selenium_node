@@ -5,13 +5,17 @@ exports.GetShopList = (driver) => {
 	return driver.getCurrentUrl().then((current_url) => {
 		if((current_url.indexOf('/shops?user_address=') !== -1) || (current_url.indexOf('/shops?address=') !== -1)){
 			shops = driver.findElement(By.className('shop-items'));
-			count = driver.findElement(By.css('span.number')).getText();
-			
-			let countToInt = Promise.resolve(count).then((count) => {return parseInt(count);});
+			ShopCount = driver.findElement(By.css('span.number'));
 
-			if(countToInt !== 0){
-				shops.findElement(By.css('a[href*="/blue-shark"')).click();
-			}
+			ShopCount.getText().then((count)=> {
+				if((parseInt(count)) > 0){
+					shops.findElement(By.css('a[href*="/blue-shark"')).click();
+				}
+				else{
+					console.log('No Restaurant at this time');
+					return false;
+				}
+			});
 		}
 		else{
 			console.log('Wrong URL');
