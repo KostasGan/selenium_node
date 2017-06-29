@@ -40,9 +40,10 @@ test.describe('First Test Case',function(){
 
 		driver.get(url);
 
-		address.AddAddressAnonymous(driver,creds).then(()=>{
+		address.AddAddressAnonymous(driver,creds).then((val)=>{
+			 //assert.ok(val);
 			shoplist.GetShopList(driver);
 			shopProfile.MakeOrderInShopProfile(driver);
-		});
+		})
 	})
 });
