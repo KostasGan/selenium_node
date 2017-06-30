@@ -9,7 +9,10 @@ exports.GetShopList = (driver) => {
 
 			ShopCount.getText().then((count)=> {
 				if((parseInt(count)) > 0){
-					shops.findElement(By.css('a[href*="/blue-shark"')).click();
+					let blue_shark = shops.findElement(By.css('a[href*="/blue-shark"'));
+					driver.wait(until.elementIsVisible(blue_shark), 5000).then(() => {
+						blue_shark.click();
+					});
 				}
 				else{
 					console.log('No Restaurant at this time');
