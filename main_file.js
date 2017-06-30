@@ -2,7 +2,7 @@ const config = require('config');
 const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
-//const login = require('./test_cases/logintest.js');
+//const login = require('./test_cases/login.js');
 //const register = require('./test_cases/register.js');
 //const logout = require('./test_cases/logout.js');
 const address = require('./test_cases/address.js');
@@ -36,14 +36,13 @@ test.describe('First Test Case',function(){
 
 	test.it('Login Test', function(){
 
-		this.timeout(20000);
+		this.timeout(30000);
 
 		driver.get(url);
-
-		address.AddAddressAnonymous(driver,creds).then((val)=>{
+		address.AddAddressAnonymous(driver).then((val)=>{
 			 //assert.ok(val);
 			shoplist.GetShopList(driver);
 			shopProfile.MakeOrderInShopProfile(driver);
-		})
-	})
+		});
+	});
 });
