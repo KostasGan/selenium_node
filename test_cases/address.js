@@ -1,5 +1,4 @@
 let {By,until} = require('selenium-webdriver');
-let address_field;
 
 exports.AddAddressAnonymous = (driver) => {
 	return driver.wait(until.elementLocated(By.css('div.geosuggest > div > input')), 3000)
