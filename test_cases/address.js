@@ -2,19 +2,15 @@ let {By,until} = require('selenium-webdriver');
 
 
 exports.AddAddressAnonymous = (driver) => {
-	let address_field = driver.findElement(By.css('input.geosuggest__input'));
-
-	return driver.wait(until.elementIsVisible(address_field), 2000)
-	.then(() => {
+	return driver.wait(until.elementLocated(By.css('div.geosuggest > div > input')), 3000)
+	.then((address_field) => {
 		address_field.sendKeys('Αριστείδου 1 Μαρούσι');
 		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),2000)
-		.then(() => { 
-			let suggest = driver.findElement(By.css('li.geosuggest-item.geosuggest-item'));
+		.then((suggest) => { 
 			suggest.click()
-			return driver.wait(until.elementLocated(By.css('form.address')),2000)
-			.then(() => {
-				let confirm_btn = driver.findElement(By.id('submit_btn'));
-				confirm_btn.click();
+			return driver.wait(until.elementLocated(By.css('form.address')),3000)
+			.then((formAddress) => {
+				formAddress.findElement(By.id('submit_btn')).click();
 				return true;
 			})
 			.catch((e) => {
@@ -30,5 +26,5 @@ exports.AddAddressAnonymous = (driver) => {
 		console.log('No element visible' + e)
 		return false;
 	});
-};
+}
 
