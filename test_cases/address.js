@@ -3,7 +3,7 @@ let {By,until} = require('selenium-webdriver');
 exports.AddAddressAnonymous = (driver) => {
 	return driver.wait(until.elementLocated(By.css('div.geosuggest > div > input')), 3000)
 	.then((address_field) => {
-		address_field.sendKeys('Αριστείδου 1 Μαρούσι');
+		address_field.sendKeys('Λεωφόρος Ηρακλείου 409 Ηράκλειο');
 		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),2000)
 		.then((suggest) => { 
 			suggest.click()
