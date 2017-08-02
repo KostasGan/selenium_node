@@ -1,10 +1,10 @@
 let {By,until} = require('selenium-webdriver');
 let checkBox, button, input;
-
+const login = require('./login.js');
 
 function AddItemToCart(driver) {
 	driver.findElement(By.id('IT_000000000416')).click(); 
-	driver.sleep(500);
+	driver.sleep(300);
 	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 5000)).then((popup_menu) => {
 		driver.findElements(By.css('div.options.menu-item-options > div')).then((item_options) => {
 			if(item_options.length > 0) {
@@ -44,7 +44,7 @@ function AddItemToCart(driver) {
 	}).catch((e) => { console.error('Item Modal hasn`t found \n' + e ); });
 }
 
-exports.MakeOrderInShopProfile = (driver) => {
+exports.MakeOrderInShopProfile = (driver,creds) => {
 	return driver.getCurrentUrl().then((current_url) => {
 		if(current_url.indexOf('/delivery/neo-irakleio/blue-shark') !== -1 ){
 			//let menu = driver.findElement(By.css('section.menu-container'));
@@ -52,12 +52,15 @@ exports.MakeOrderInShopProfile = (driver) => {
 			AddItemToCart(driver).then(() => {
 				AddItemToCart(driver);
 			});
-
+			
 			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
 				if(cart_items.length == 2){
-					driver.findElement(By.id('continue-btn')).click();
+					//login.Login(driver, creds);
+					driver.findElement(By.id('continue-btn')).click().then(()=>{
+						login.Login(driver, creds);
+					});
 				}
-			});
+			}).catch((e) => { console.log("Cannot continue to checkout \n" + e); });
 		}
 	}).catch((e) => { console.error('Shop isnt Blue Shark \n' + e); });
 }
