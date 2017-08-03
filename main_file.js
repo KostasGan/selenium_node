@@ -8,6 +8,7 @@ const assert = require('assert');
 const address = require('./test_cases/address.js');
 const shoplist = require('./test_cases/shoplist.js');
 const shopProfile = require('./test_cases/shop_profile.js');
+const checkout = require('./test_cases/checkout.js');
 
 
 //configs 
@@ -36,15 +37,16 @@ test.describe('First Test Case',function(){
 
 	test.it('Login Test', function(){
 
-		this.timeout(30000);
+		this.timeout(50000);
 
 		driver.get(url);
+		
 		address.AddAddressAnonymous(driver).then((val)=>{
-			 //assert.ok(val);
-			shoplist.GetShopList(driver);
-			shopProfile.MakeOrderInShopProfile(driver);
+
+			//assert.ok(val);
+		 	shoplist.GetShopList(driver);
+			shopProfile.MakeOrderInShopProfile(driver,creds);
+			checkout.SubmitOrder(driver);
 		});
-
-
 	});
 });
