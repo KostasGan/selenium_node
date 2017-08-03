@@ -7,7 +7,7 @@ exports.AddAddressAnonymous = (driver) => {
 		return driver.wait(until.elementLocated(By.css('li.geosuggest-item.geosuggest-item')),2000)
 		.then((suggest) => { 
 			suggest.click()
-			return driver.wait(until.elementLocated(By.css('form.address')),3000)
+			return driver.wait(until.elementLocated(By.css('form.address')),5000)
 			.then((formAddress) => {
 				formAddress.findElement(By.id('submit_btn')).click();
 				return true;
