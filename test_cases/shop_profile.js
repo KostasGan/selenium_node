@@ -4,7 +4,7 @@ const login = require('./login.js');
 
 function AddItemToCart(driver) {
 	driver.findElement(By.id('IT_000000000416')).click(); 
-	driver.sleep(300);
+	driver.sleep(400);
 	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 5000)).then((popup_menu) => {
 		driver.findElements(By.css('div.options.menu-item-options > div')).then((item_options) => {
 			if(item_options.length > 0) {
