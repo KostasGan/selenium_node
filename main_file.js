@@ -8,7 +8,7 @@ const assert = require('assert');
 const address = require('./test_cases/address.js');
 const shoplist = require('./test_cases/shoplist.js');
 const shopProfile = require('./test_cases/shop_profile.js');
-const checkout = require('./test_cases/checkout.js');
+//const checkout = require('./test_cases/checkout.js');
 
 
 //configs 
@@ -46,7 +46,6 @@ test.describe('First Test Case',function(){
 			//assert.ok(val);
 		 	shoplist.GetShopList(driver);
 			shopProfile.MakeOrderInShopProfile(driver,creds);
-			checkout.SubmitOrder(driver);
 		});
 	});
 });
