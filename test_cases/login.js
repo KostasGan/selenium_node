@@ -46,15 +46,17 @@ function WrongCredsFuncs(driver,email,pass) {
 
 //Exported Function for Login
 exports.Login = (driver,creds) => {
-	driver.wait(until.elementLocated(By.css('div.modal-content')), 3000).then((modal) => {
-		driver.wait(until.elementIsVisible(modal),4000).then(() => {
+	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		driver.wait(until.elementIsVisible(modal),2000).then(() => {
+			driver.sleep(350);
 			LoginModalFuncs(driver,creds);
 		});
 	}).catch(() => {
 		console.log('Login Modal isn`t open. Continue by pressing Login Button. \n');
 		driver.findElement(By.css('div.col-md-3.col-sm-4 > a')).click();
-		driver.wait(until.elementLocated(By.css('div.modal-content')), 3000).then((modal) => {
-			driver.wait(until.elementIsVisible(modal),4000).then(() => {
+		driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+			driver.wait(until.elementIsVisible(modal),2000).then(() => {
+				driver.sleep(350);
 				LoginModalFuncs(driver,creds);
 			});
 		});
@@ -82,15 +84,17 @@ exports.Login = (driver,creds) => {
 exports.LoginWithWrongCreds = (driver) => {
 	console.log ('Login Test With Wrong Creds begin:');
 
-	driver.wait(until.elementLocated(By.css('div.modal-content')), 3000).then((modal) => {
-		driver.wait(until.elementIsVisible(modal),4000).then(() => {
+	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		driver.wait(until.elementIsVisible(modal),2000).then(() => {
+			driver.sleep(350);
 			WrongCredsFuncs(driver,'kostas.efood-5@gmail.com','add');
 		});
 	}).catch(() => {
 		console.log('Login Modal isn`t open. Continue by pressing Login Button. \n');
 		driver.findElement(By.css('div.col-md-3.col-sm-4 > a')).click();
-		driver.wait(until.elementLocated(By.css('div.modal-content')), 3000).then((modal) => {
-			driver.wait(until.elementIsVisible(modal),4000).then(() => {
+		driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+			driver.wait(until.elementIsVisible(modal),2000).then(() => {
+				driver.sleep(350);
 				WrongCredsFuncs(driver,'kostas.efood-5@gmail.com','add');
 			});
 		});
