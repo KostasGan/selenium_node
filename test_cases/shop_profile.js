@@ -55,21 +55,16 @@ function AddItemToCart(driver) {
 			}
 		});
 	}); 
-	
 }
 
 exports.MakeOrderInShopProfile = (driver,creds) => {
 	return driver.getCurrentUrl().then((current_url) => {
 		if(current_url.indexOf('/delivery/neo-irakleio/blue-shark') !== -1 ){
 			//let menu = driver.findElement(By.css('section.menu-container'));
-
 			AddItemToCart(driver);
-
 			AddItemToCart(driver);
-			
 			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
 				if(cart_items.length == 2){
-					//login.Login(driver, creds);
 					driver.findElement(By.id('continue-btn')).then((button)=>{
 						button.isEnabled().then((value) => {
 							if(value){
