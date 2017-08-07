@@ -1,9 +1,10 @@
 let {By,until} = require('selenium-webdriver');
 let checkBox, button, input;
 const login = require('./login.js');
+const checkout = require('./checkout.js');
 
 function selectItemsOptions(driver){
-	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 5000)).then((popup_menu) => {
+	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 3000)).then((popup_menu) => {
 		driver.findElements(By.css('div.options.menu-item-options > div')).then((item_options) => {
 			if(item_options.length > 0) {
 				driver.findElements(By.css('div.option.menu-item-option.clearfix.required-option')).then((required)=>{
@@ -43,10 +44,11 @@ function selectItemsOptions(driver){
 }
 
 function AddItemToCart(driver) {
-	driver.findElement(By.id('IT_000000000403')).then((item) => {
+	driver.findElement(By.id('IT_000000000416')).then((item) => {
 		item.getAttribute('class').then((val) => {
 			if(val.indexOf('disabled') === -1){
 				item.click();
+				driver.sleep(300);
 				selectItemsOptions(driver);
 			}
 			else{
@@ -70,6 +72,7 @@ exports.MakeOrderInShopProfile = (driver,creds) => {
 							if(value){
 								button.click();
 								login.Login(driver, creds);
+								checkout.SubmitOrder(driver);
 							}
 						});
 					}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });

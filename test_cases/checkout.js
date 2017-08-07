@@ -2,6 +2,30 @@ let {By,until} = require('selenium-webdriver');
 
 function ValidateOrderInfo(driver) {
     driver.findElement(By.css('div.order-content-wrapper')).then((OrderInfo) => {
+        OrderInfo.findElement(By.css('input#customername')).then((customername) => {
+            customername.isDisplayed('value').then((val) => {
+                if(val){
+                    customername.getAttribute('value').then((attr) => {
+                        if(attr === ''){
+                            customername.sendKeys('Κώστας');
+                        }
+                    });
+                }
+            });
+        }).catch((e) => { console.log('Can`t find customername input field \n' + e ); });
+
+        OrderInfo.findElement(By.css('input#customersurname')).then((customersurname) => {
+            customersurname.isDisplayed('value').then((val) => {
+                if(val){
+                    customersurname.getAttribute('value').then((attr) => {
+                        if(attr === ''){
+                            customersurname.sendKeys('Γανώσης');
+                        }
+                    });
+                }
+            });
+        }).catch((e) => { console.log('Can`t find customersurname input field \n' + e ); });
+
         OrderInfo.findElement(By.css('input#doorbellname')).then((doorbell) => {
             doorbell.getAttribute('value').then((val) => {
                 console.log(val);
@@ -9,7 +33,7 @@ function ValidateOrderInfo(driver) {
                     doorbell.sendKeys('Δοκιμαστική111');
                 }
             });
-        }).catch((e) => { console.log('Can`t find doorbell input \n' + e ); });
+        }).catch((e) => { console.log('Can`t find doorbell input field \n' + e ); });
 
         OrderInfo.findElement(By.css('input#floor')).then((floor) => {
             floor.getAttribute('value').then((val) => {
@@ -17,7 +41,7 @@ function ValidateOrderInfo(driver) {
                     floor.sendKeys('Δοκιμαστική');
                 }
             });
-        }).catch((e) => { console.log('Can`t find floor input \n' + e ); });
+        }).catch((e) => { console.log('Can`t find floor input field \n' + e ); });
 
         OrderInfo.findElement(By.css('input#cellphone')).then((cellphone) => {
             cellphone.isDisplayed('value').then((val) => {
@@ -29,8 +53,8 @@ function ValidateOrderInfo(driver) {
                     });
                 }
             });
-        }).catch((e) => { console.log('Can`t find cellphone input \n' + e ); });
-    });
+        }).catch((e) => { console.log('Can`t find cellphone input field \n' + e ); });
+    }).catch((e) => { console.log('Can`t find Order Info form \n' + e ); });
 }
 
 
