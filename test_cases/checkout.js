@@ -1,7 +1,9 @@
 let {By,until} = require('selenium-webdriver');
+const smsVerification = require('./smsVerification.js');
+
 
 function ValidateOrderInfo(driver) {
-    driver.findElement(By.css('div.order-content-wrapper')).then((OrderInfo) => {
+    return driver.findElement(By.css('div.order-content-wrapper')).then((OrderInfo) => {
         OrderInfo.findElement(By.css('input#customername')).then((customername) => {
             customername.isDisplayed('value').then((val) => {
                 if(val){
@@ -28,7 +30,6 @@ function ValidateOrderInfo(driver) {
 
         OrderInfo.findElement(By.css('input#doorbellname')).then((doorbell) => {
             doorbell.getAttribute('value').then((val) => {
-                console.log(val);
                 if(val === ''){
                     doorbell.sendKeys('Δοκιμαστική111');
                 }
@@ -43,14 +44,15 @@ function ValidateOrderInfo(driver) {
             });
         }).catch((e) => { console.log('Can`t find floor input field \n' + e ); });
 
-        OrderInfo.findElement(By.css('input#cellphone')).then((cellphone) => {
-            cellphone.isDisplayed('value').then((val) => {
+        return OrderInfo.findElement(By.css('input#cellphone')).then((cellphone) => {
+            return cellphone.isDisplayed('value').then((val) => {
                 if(val){
                     cellphone.getAttribute('value').then((attr) => {
                         if(attr === ''){
                             cellphone.sendKeys('6981000000');
                         }
                     });
+                    return 'need_validation';
                 }
             });
         }).catch((e) => { console.log('Can`t find cellphone input field \n' + e ); });
@@ -114,11 +116,18 @@ function AddCoupon(driver) {
     });
 }
 
-exports.SubmitOrder = (driver) => {
+exports.SubmitOrder = (driver,sms_pass) => {
     driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
-        ValidateOrderInfo(driver);
-        AddCoupon(driver);
+        let opt = ValidateOrderInfo(driver);
+        //AddCoupon(driver);
         SelectPaymentMethod(driver,'cash');
-        driver.findElement(By.css('input#sendorder')).click();
+        driver.findElement(By.css('input#sendorder')).click().then(() => {
+            opt.then((opt) => {
+                if(opt === 'need_validation'){
+                    smsVerification.phoneValidation(driver, sms_pass);
+                }
+            });
+        });
+        
     }).catch((e) => { console.log('Current Page isnt Checkout. Something went wrong! \n' + e); });
 }
