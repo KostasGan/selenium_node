@@ -15,7 +15,11 @@ const shopProfile = require('./test_cases/shop_profile.js');
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@' ;
 let main_url = config.get('Env.url');
 let url = 'https://'+ ngcreds + main_url;
-let creds = {'email': config.get('User.email'), 'pass': config.get('User.pass')};
+let creds = { 
+	'email': config.get('User.email'), 
+	'pass': config.get('User.pass'), 
+	'sms_pass': config.get('User.sms_pass')
+};
 
 //Mocha TestCases
 test.describe('First Test Case',function(){
