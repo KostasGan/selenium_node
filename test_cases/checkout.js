@@ -1,11 +1,11 @@
 let {By,until} = require('selenium-webdriver');
 const smsVerification = require('./smsVerification.js');
-
+let opt = null;
 
 function ValidateOrderInfo(driver) {
     return driver.findElement(By.css('div.order-content-wrapper')).then((OrderInfo) => {
-        OrderInfo.findElement(By.css('input#customername')).then((customername) => {
-            customername.isDisplayed('value').then((val) => {
+        driver.wait(until.elementLocated(By.id('customername')),1000).then((customername) => {
+            customername.isDisplayed().then((val) => {
                 if(val){
                     customername.getAttribute('value').then((attr) => {
                         if(attr === ''){
@@ -14,10 +14,10 @@ function ValidateOrderInfo(driver) {
                     });
                 }
             });
-        }).catch((e) => { console.log('Can`t find customername input field \n' + e ); });
+        }).catch((e) => { /*console.log('Can`t find customername input field \n' + e );*/});
 
-        OrderInfo.findElement(By.css('input#customersurname')).then((customersurname) => {
-            customersurname.isDisplayed('value').then((val) => {
+        driver.wait(until.elementLocated(By.css('input#customersurname')), 1000).then((customersurname) => {
+            customersurname.isDisplayed().then((val) => {
                 if(val){
                     customersurname.getAttribute('value').then((attr) => {
                         if(attr === ''){
@@ -26,7 +26,7 @@ function ValidateOrderInfo(driver) {
                     });
                 }
             });
-        }).catch((e) => { console.log('Can`t find customersurname input field \n' + e ); });
+        }).catch((e) => { /*console.log('Can`t find customersurname input field \n' + e );*/ });
 
         OrderInfo.findElement(By.css('input#doorbellname')).then((doorbell) => {
             doorbell.getAttribute('value').then((val) => {
@@ -34,7 +34,7 @@ function ValidateOrderInfo(driver) {
                     doorbell.sendKeys('Δοκιμαστική111');
                 }
             });
-        }).catch((e) => { console.log('Can`t find doorbell input field \n' + e ); });
+        }).catch((e) => { /*console.log('Can`t find doorbell input field \n' + e );*/ });
 
         OrderInfo.findElement(By.css('input#floor')).then((floor) => {
             floor.getAttribute('value').then((val) => {
@@ -118,16 +118,20 @@ function AddCoupon(driver) {
 
 exports.SubmitOrder = (driver,sms_pass) => {
     driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
-        let opt = ValidateOrderInfo(driver);
+        opt = ValidateOrderInfo(driver);
         //AddCoupon(driver);
         SelectPaymentMethod(driver,'cash');
-        driver.findElement(By.css('input#sendorder')).click().then(() => {
-            opt.then((opt) => {
-                if(opt === 'need_validation'){
-                    smsVerification.phoneValidation(driver, sms_pass);
-                }
-            });
-        });
+        driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
+            if(cart_items.length > 0){
+                driver.findElement(By.css('input#sendorder')).click().then(() => {
+                    opt.then((opt) => {
+                        if(opt === 'need_validation'){
+                            smsVerification.phoneValidation(driver, sms_pass);
+                        }
+                    });
+                }).catch((e) => { console.log('Driver Cant Find SendOrder Button \n' + e); });
+            }
+        }).catch((e) => { console.log('Driver Cant find Cart Items \n' + e); });
         
     }).catch((e) => { console.log('Current Page isnt Checkout. Something went wrong! \n' + e); });
 }
