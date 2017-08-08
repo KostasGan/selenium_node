@@ -1,36 +1,41 @@
-let {By,until} = require('selenium-webdriver'),
+let {By,until} = require('selenium-webdriver');
 
-exports.Register = (driver) => {
-	let login = driver.findElement(By.css('div.col-md-3.col-sm-4 > #header-login'));
-
-	driver.wait(until.elementIsVisible(login), 1000).catch((e) => { console.log('Test Failed: You are already logged in')});
-	login.click();
-	driver.wait(until.elementLocated(By.id('popup_login')), 1000);
-
-	let register = driver.findElement(By.linkText('Δημιουργία Λογαριασμού')).click();
-
-	driver.wait(until.elementLocated(By.id('popup_register')), 1000);
-	driver.wait(until.elementIsVisible(driver.findElement(By.id('email'))), 1000);
-
-	driver.findElement(By.id('email')).sendKeys(''); //Need to add valid email
-	driver.findElement(By.id('pass')).sendKeys(''); //Need to add valid pass
-	driver.findElement(By.id('pass-repeat')).sendKeys(''); //Need to add repass.
-
-	driver.findElement(By.id('create_btn')).click()
-	.then(() => {
-		return driver.wait(until.elementLocated(By.id('userlink')), 2000)
-		.then(()=>{
-			let logged_name = driver.findElement(By.id('userlink'));
-			driver.wait(until.elementIsVisible(logged_name), 1000);
-			return 'Completed';
-		})
-		.catch((e)=>{
-			console.log('Something bad happen ' + e);
-			return 'Failed';
+function RegisterModalFuncs(driver,creds) {
+	driver.wait(until.elementLocated(By.id('register-form')), 1000).then((form) => {
+		form.findElement(By.id('register_email')).sendKeys('ad' + creds.email); 
+		form.findElement(By.id('register_pass')).sendKeys(creds.pass); 
+		form.findElement(By.id('register_pass_repeat')).sendKeys(creds.pass);
+		return driver.findElement(By.css('button.button.button-primary.register-form-submit')).click().then(() => {	
+			return driver.wait(until.elementLocated(By.id('userlink')), 4000).then((logged_name) => {
+				driver.wait(until.elementIsVisible(logged_name), 2000);
+				return 'true';
+			}).catch((e)=>{
+				console.log('Something bad happen \n' + e);
+				return 'false';
+			});
 		});
-	})
-	.then((message)=>{
-		console.log('Register Test Status: ' + message);	
+	});
+}
+
+exports.Register = (driver,creds) => {
+	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		driver.wait(until.elementIsVisible(modal),2000).then(() => {
+			driver.sleep(350);
+			driver.findElement(By.css('a[href*="#register-form')).click().then(() => {
+				RegisterModalFuncs(driver,creds);
+			});
+		});
+	}).catch(() => {
+		console.log('Login/Register Modal didn`t open. Continue by pressing Register Button. \n');
+		driver.findElement(By.css('div.col-md-3.col-sm-4 > a')).click();
+		driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+			driver.wait(until.elementIsVisible(modal),2000).then(() => {
+				driver.sleep(350);
+				driver.findElement(By.css('a[href*="#register-form')).click().then(() => {
+					RegisterModalFuncs(driver,creds);
+				});
+			});
+		});
 	});
 }
 
