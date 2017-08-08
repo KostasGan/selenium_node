@@ -3,7 +3,7 @@ const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
 //const login = require('./test_cases/login.js');
-//const register = require('./test_cases/register.js');
+const register = require('./test_cases/register.js');
 //const logout = require('./test_cases/logout.js');
 const address = require('./test_cases/address.js');
 const shoplist = require('./test_cases/shoplist.js');
@@ -44,12 +44,12 @@ test.describe('First Test Case',function(){
 		this.timeout(50000);
 
 		driver.get(url);
-		
-		address.AddAddressAnonymous(driver).then((val)=>{
+		register.Register(driver,creds);
+		// address.AddAddressAnonymous(driver).then((val)=>{
 
-			//assert.ok(val);
-		 	shoplist.GetShopList(driver);
-			shopProfile.MakeOrderInShopProfile(driver,creds);
-		});
+		// 	//assert.ok(val);
+		//  	shoplist.GetShopList(driver);
+		// 	shopProfile.MakeOrderInShopProfile(driver,creds);
+		// });
 	});
 });
