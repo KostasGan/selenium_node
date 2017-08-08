@@ -6,6 +6,7 @@
 	},
 	"User": {
 		"email": "something@something.com", //Add real user email
-		"pass":  "something" //Add real user pass
+		"pass":  "something", //Add real user pass
+		"sms_pass": 55443 //Sms password for phone verification.
 	}
 }
