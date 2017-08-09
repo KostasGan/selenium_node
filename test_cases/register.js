@@ -1,6 +1,6 @@
 let {By,until} = require('selenium-webdriver');
 
-function RegisterModalFuncs(driver,creds) {
+function RegisterModalFunc(driver,creds) {
 	driver.wait(until.elementLocated(By.id('register-form')), 1000).then((form) => {
 		form.findElement(By.id('register_email')).sendKeys('ad' + creds.email); 
 		form.findElement(By.id('register_pass')).sendKeys(creds.pass); 
@@ -22,7 +22,7 @@ exports.Register = (driver,creds) => {
 		driver.wait(until.elementIsVisible(modal),2000).then(() => {
 			driver.sleep(350);
 			driver.findElement(By.css('a[href*="#register-form')).click().then(() => {
-				RegisterModalFuncs(driver,creds);
+				RegisterModalFunc(driver,creds);
 			});
 		});
 	}).catch(() => {
@@ -32,7 +32,7 @@ exports.Register = (driver,creds) => {
 			driver.wait(until.elementIsVisible(modal),2000).then(() => {
 				driver.sleep(350);
 				driver.findElement(By.css('a[href*="#register-form')).click().then(() => {
-					RegisterModalFuncs(driver,creds);
+					RegisterModalFunc(driver,creds);
 				});
 			});
 		});
