@@ -1,5 +1,4 @@
 let {By,until} = require('selenium-webdriver');
-let checkBox, button, input;
 const login = require('./login.js');
 const checkout = require('./checkout.js');
 const address = require('./address.js');
@@ -16,16 +15,16 @@ function selectItemsOptions(driver){
 				}).catch((e) => { console.log('Couldn`t find required options \n' + e ); });
 
 				driver.findElements(By.css('div.option.menu-item-option.clearfix:not(.required-option)')).then((NonRequired)=>{
-					NonRequired.forEach((element1) =>{
-						driver.wait(until.elementIsVisible(element1),3000).then((options)=>{
-							options.findElement(By.css('div.ingredient-list > div:nth-child(2)')).then((option)=>{
-								option.isEnabled().then((val)=>{
+					NonRequired.forEach((element1) => {
+						driver.wait(until.elementIsVisible(element1),3000).then((options) => {
+							options.findElement(By.css('div.ingredient-list > div:nth-child(2)')).then((option) => {
+								option.isEnabled().then((val) => {
 									if(val){
 										option.click();
 									}
 								});
 							});
-						}).catch((e) => { console.log('kati xazo \n' + e ); });
+						});
 					});
 				}).catch((e) => { console.log('Couldn`t find non-required options \n' + e ); });
 			}
