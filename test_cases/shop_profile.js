@@ -2,6 +2,7 @@ let {By,until} = require('selenium-webdriver');
 let checkBox, button, input;
 const login = require('./login.js');
 const checkout = require('./checkout.js');
+const address = require('./address.js');
 
 function selectItemsOptions(driver){
 	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 3000)).then((popup_menu) => {
@@ -50,6 +51,16 @@ function AddItemToCart(driver) {
 				item.click();
 				driver.sleep(300);
 				selectItemsOptions(driver);
+
+				// driver.wait(until.elementLocated(By.id('addressbox')),1000).then(() => {
+				// 	address.AddAddressAnonymous(driver);
+				// 	driver.sleep(300);
+				// 	AddItemToCart(driver);
+				// }).catch((e) => { 
+				// 	console.log("Address exist. Flow Continue \n");
+				// 	driver.sleep(300);
+				// 	selectItemsOptions(driver);
+				// });
 			}
 			else{
 				console.log('Item is Disable \n');
@@ -62,9 +73,15 @@ function AddItemToCart(driver) {
 exports.MakeOrderInShopProfile = (driver,creds) => {
 	return driver.getCurrentUrl().then((current_url) => {
 		if(current_url.indexOf('/delivery/neo-irakleio/blue-shark') !== -1 ){
-			//let menu = driver.findElement(By.css('section.menu-container'));
+
+			driver.wait(until.elementLocated(By.css('div.order-steps div.hidden-xs button')),1000).then((button) => {
+				button.click();
+				address.AddAddressAnonymous(driver);
+			}).catch((e) => {});
+
 			AddItemToCart(driver);
 			AddItemToCart(driver);
+
 			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
 				if(cart_items.length > 0){
 					driver.findElement(By.id('continue-btn')).then((button)=>{
