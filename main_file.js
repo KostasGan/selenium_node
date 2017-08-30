@@ -2,7 +2,7 @@ const config = require('config');
 const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
-//const login = require('./test_cases/login.js');
+const login = require('./test_cases/login.js');
 const register = require('./test_cases/register.js');
 //const logout = require('./test_cases/logout.js');
 const address = require('./test_cases/address.js');
@@ -39,16 +39,32 @@ test.describe('First Test Case',function(){
 		//driver.quit();
 	});
 
-	test.it('Login Test', function(){
+	test.it('Anonymous Flow From Homepage', function(){
 
 		this.timeout(50000);
 
 		driver.get(url);
-		register.Register(driver,creds);
+		//login.Login(driver,creds);
+		//shopProfile.MakeOrderInShopProfile(driver,creds);
+		//register.Register(driver,creds);
+		address.AddAddressAnonymous(driver).then((val)=>{
+
+			assert.ok(val);
+		 	//shoplist.GetShopList(driver);
+			//shopProfile.MakeOrderInShopProfile(driver,creds);
+		});
+	});
+	test.it('Anonymous Flow From ShopProfile', function(){
+
+		this.timeout(50000);
+
+		driver.get(url + '/menu?shop_id=968814');
+		shopProfile.MakeOrderInShopProfile(driver,creds);
+		//register.Register(driver,creds);
 		// address.AddAddressAnonymous(driver).then((val)=>{
 
 		// 	//assert.ok(val);
-		//  	shoplist.GetShopList(driver);
+		//  	//shoplist.GetShopList(driver);
 		// 	shopProfile.MakeOrderInShopProfile(driver,creds);
 		// });
 	});
