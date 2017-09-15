@@ -43,8 +43,8 @@ function selectItemsOptions(driver) {
 	}).catch((e) => { console.error('Item Modal hasn`t found \n' + e); });
 }
 
-function AddItemToCart(driver) {
-	driver.findElement(By.id('IT_000000000402')).then((item) => {
+function AddItemToCart(driver,item_id) {
+	driver.findElement(By.id(item_id)).then((item) => {
 		item.getAttribute('class').then((val) => {
 			if (val.indexOf('disabled') === -1) {
 				item.click();
@@ -89,16 +89,18 @@ exports.AddOffer = function (driver) {
 
 exports.MakeOrderInShopProfile = (driver, creds) => {
 	return driver.getCurrentUrl().then((current_url) => {
-		if (current_url.indexOf('/delivery/neo-irakleio/blue-shark') !== -1) {
+		if (current_url.indexOf('/delivery/menu/simply-burgers') !== -1) {
 
 			driver.wait(until.elementLocated(By.css('div.order-steps div.hidden-xs button')), 1000).then((button) => {
 				button.click();
 				address.AddAddressAnonymous(driver);
 			}).catch((e) => { });
 
-			//AddItemToCart(driver);
-			AddItemToCart(driver);
-			exports.AddOffer(driver);
+			AddItemToCart(driver,"IT_000000000404");
+			AddItemToCart(driver, 'IT_000000000398');
+			AddItemToCart(driver, 'IT_000000000398');
+			AddItemToCart(driver, 'IT_000000000416');
+			//exports.AddOffer(driver);
 			//AddOffer(driver);
 
 			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {

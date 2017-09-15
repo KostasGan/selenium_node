@@ -117,7 +117,7 @@ function AddCoupon(driver) {
 }
 
 exports.SubmitOrder = (driver, sms_pass) => {
-    driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
+    driver.wait(until.urlContains('/orders/form?shop_id=299540'), 3000).then(() => {
         opt = ValidateOrderInfo(driver);
         //AddCoupon(driver);
         SelectPaymentMethod(driver, 'cash');
@@ -133,6 +133,7 @@ exports.SubmitOrder = (driver, sms_pass) => {
 
                 driver.wait(until.elementLocated(By.id('confirmationpopup')), 3000).then((confirm_popup) => {
                     driver.wait(until.elementIsVisible(confirm_popup), 3000);
+                    console.log('done');
                 });
             }
         }).catch((e) => { console.log('Driver Cant find Cart Items \n' + e); });

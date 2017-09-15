@@ -35,23 +35,26 @@ test.describe('First Test Case', function () {
 	});
 
 	test.afterEach(function () {
-		//driver.quit();
+		driver.quit();
 	});
-
+	for(i=0; i< 15; i++){
 	test.it('Anonymous Flow From Homepage', function () {
 
 		this.timeout(50000);
 
-		driver.get(url);
+		driver.get(url + '/delivery/menu/simply-burgers');
 		//driver.get(url1);
 
 		//login.Login(driver,creds);
 		//shopProfile.MakeOrderInShopProfile(driver,creds);
 		//register.Register(driver,creds);
-		address.AddAddressAnonymous(driver).then((val) => { assert.ok(val); });
-		shoplist.GetShopList(driver).then((bool) => { assert.ok(bool) });
+		//address.AddAddressAnonymous(driver).then((val) => { assert.ok(val); });
+		//shoplist.GetShopList(driver).then((bool) => { assert.ok(bool) });
 		shopProfile.MakeOrderInShopProfile(driver, creds);
+		driver.sleep(600);
 	});
+	
+}
 	// test.it('Anonymous Flow From ShopProfile', function(){
 
 	// 	this.timeout(50000);
