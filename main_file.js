@@ -12,60 +12,58 @@ const shopProfile = require('./test_cases/shop_profile.js');
 
 
 //configs 
-let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@' ;
+let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
 let main_url = config.get('Env.url');
-let url = 'https://'+ ngcreds + main_url;
-let creds = { 
-	'email': config.get('User.email'), 
-	'pass': config.get('User.pass'), 
+let url = 'https://' + ngcreds + main_url;
+let url1 = 'https://' + main_url;
+let driver;
+let creds = {
+	'email': config.get('User.email'),
+	'pass': config.get('User.pass'),
 	'sms_pass': config.get('User.sms_pass')
 };
 
 //Mocha TestCases
-test.describe('First Test Case',function(){
-	let driver;
-
-	test.beforeEach(function() {
-		
+test.describe('First Test Case', function () {
+	test.beforeEach(function () {
 		driver = new webdriver
-		.Builder()
-	    .withCapabilities(webdriver.Capabilities.chrome())
-	    .build();
-	    
-	    driver.manage().window().maximize();
+			.Builder()
+			.withCapabilities(webdriver.Capabilities.chrome())
+			.build();
+
+		driver.manage().window().maximize();
 	});
 
-	test.afterEach(function() {
+	test.afterEach(function () {
 		//driver.quit();
 	});
 
-	test.it('Anonymous Flow From Homepage', function(){
+	test.it('Anonymous Flow From Homepage', function () {
 
 		this.timeout(50000);
 
 		driver.get(url);
+		//driver.get(url1);
+
 		//login.Login(driver,creds);
 		//shopProfile.MakeOrderInShopProfile(driver,creds);
 		//register.Register(driver,creds);
-		address.AddAddressAnonymous(driver).then((val)=>{
-
-			assert.ok(val);
-		 	//shoplist.GetShopList(driver);
-			//shopProfile.MakeOrderInShopProfile(driver,creds);
-		});
+		address.AddAddressAnonymous(driver).then((val) => { assert.ok(val); });
+		shoplist.GetShopList(driver).then((bool) => { assert.ok(bool) });
+		shopProfile.MakeOrderInShopProfile(driver, creds);
 	});
-	test.it('Anonymous Flow From ShopProfile', function(){
+	// test.it('Anonymous Flow From ShopProfile', function(){
 
-		this.timeout(50000);
+	// 	this.timeout(50000);
 
-		driver.get(url + '/menu?shop_id=968814');
-		shopProfile.MakeOrderInShopProfile(driver,creds);
-		//register.Register(driver,creds);
-		// address.AddAddressAnonymous(driver).then((val)=>{
+	// 	driver.get(url + '/menu?shop_id=968814');
+	// 	shopProfile.MakeOrderInShopProfile(driver,creds);
+	// 	//register.Register(driver,creds);
+	// 	// address.AddAddressAnonymous(driver).then((val)=>{
 
-		// 	//assert.ok(val);
-		//  	//shoplist.GetShopList(driver);
-		// 	shopProfile.MakeOrderInShopProfile(driver,creds);
-		// });
-	});
+	// 	// 	//assert.ok(val);
+	// 	//  	//shoplist.GetShopList(driver);
+	// 	// 	shopProfile.MakeOrderInShopProfile(driver,creds);
+	// 	// });
+	// });
 });
