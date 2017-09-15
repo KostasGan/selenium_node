@@ -59,7 +59,7 @@ function AddItemToCart(driver) {
 	});
 }
 
-function AddOffer(driver) {
+exports.AddOffer = function (driver) {
 	driver.sleep(250);
 	driver.wait(until.elementLocated(By.css('ul.offers-list > li:nth-child(3)')), 1000).then((offer) => {
 		offer.click();
@@ -98,7 +98,7 @@ exports.MakeOrderInShopProfile = (driver, creds) => {
 
 			//AddItemToCart(driver);
 			AddItemToCart(driver);
-			AddOffer(driver);
+			exports.AddOffer(driver);
 			//AddOffer(driver);
 
 			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
