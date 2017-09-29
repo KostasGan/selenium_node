@@ -7,11 +7,12 @@ exports.GetShopList = (driver) => {
 			shops = driver.findElement(By.className('shop-items'));
 			ShopCount = driver.findElement(By.css('span.number'));
 
-			ShopCount.getText().then((count)=> {
+			return ShopCount.getText().then((count)=> {
 				if((parseInt(count)) > 0){
 					let blue_shark = shops.findElement(By.css('a[href*="/blue-shark"'));
-					driver.wait(until.elementIsVisible(blue_shark), 5000).then(() => {
+					return driver.wait(until.elementIsVisible(blue_shark), 5000).then(() => {
 						blue_shark.click();
+						return true;
 					});
 				}
 				else{
