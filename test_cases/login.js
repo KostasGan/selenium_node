@@ -11,7 +11,7 @@ function LoginModalFuncs(driver, creds) {
 	return driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
 		driver.sleep(300);
 		return driver.wait(until.elementLocated(By.css('span.user-options')), 5000).then((logged_name) => {
-			logged_name.getText().then((text) => {
+			return logged_name.getText().then((text) => {
 				if (text === 'Κώστας')
 					return 'true';
 			});
@@ -52,16 +52,16 @@ function WrongCredsFuncs(driver, email, pass) {
 
 //Exported Function for Login
 exports.Login = (driver, creds) => {
-	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-		driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
-			LoginModalFuncs(driver, creds);
+	return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+			return LoginModalFuncs(driver, creds);
 		});
 	}).catch(() => {
 		console.log('Login Modal isn`t open. Continue by pressing Login Button. \n');
 		driver.findElement(By.css('div.col-md-3.col-sm-4 > a')).click();
-		driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-			driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
-				LoginModalFuncs(driver, creds);
+		return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+			return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+				return LoginModalFuncs(driver, creds);
 			});
 		});
 	});
