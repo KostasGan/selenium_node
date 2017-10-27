@@ -1,6 +1,4 @@
 let { By, until } = require('selenium-webdriver');
-const assert = require('assert');
-
 
 exports.UpdateUserInfo = (driver) => {
     return driver.wait(until.elementLocated(By.css('section.user-content.user-box')), 1000).then((user_box) => {
