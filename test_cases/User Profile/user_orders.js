@@ -134,7 +134,7 @@ exports.ViewMoreOrders = (driver) => {
             ordersLength = orders.length;
             driver.wait(until.elementIsVisible(driver.findElement(By.css('div.button-fetch-orders-container > button'))), 1000).then((button) => {
                 button.click();
-            })
+            });
             driver.sleep(1200);
             return driver.findElements(By.css('tbody > tr.user-order')).then((newOrders) => {
                 ordersLength = ordersLength + 50;
@@ -159,3 +159,36 @@ exports.ViewMoreOrders = (driver) => {
         return 'Failed';
     });
 }
+
+
+exports.ReOrderFromUserOrders = ((driver) =>{
+    return driver.wait(until.elementLocated(By.css('table.table.user-orders')), 1000).then((ordersTable) => {
+        driver.wait(until.elementIsVisible(driver.findElement(By.css('a.add-past-order'))), 1000).then((button) => {
+            button.click();
+        }).catch((e) => { 
+            console.log('Cannot Find Reorder Button in UserOrders ' + e); 
+            return 'Failed';
+        });
+
+        return driver.wait(until.urlContains('&reorder=1'), 6000).then(() => {
+            return driver.findElements(By.css('div.cart-items')).then((items) => {
+                if(items.length > 0){
+                    return 'Completed';
+                }
+                else{
+                    console.log('No items to cart \n');
+                    return 'Failed';
+                }
+            }).catch((e) => { 
+                console.log('Cannot Find Cart Items ' + e); 
+                return 'Failed';
+            });
+        }).catch((e) => { 
+            console.log('You aren`t in Shop Profile with ReOrder ' + e); 
+            return 'Failed';
+        });
+    }).catch((e) => { 
+        console.log('Cannot Locate UserOrders ' + e); 
+        return 'Failed';
+    });
+});
