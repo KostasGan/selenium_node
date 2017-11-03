@@ -30,7 +30,7 @@ test.describe('First Test Case', function () {
 		driver = new webdriver
 		.Builder()
 		.forBrowser('chrome')
-		.setChromeOptions(new chrome.Options().addArguments('--headless'))
+		//.setChromeOptions(new chrome.Options().addArguments('--headless'))
 		.build();
 
 	});
@@ -83,13 +83,7 @@ test.describe('First Test Case', function () {
 
 		driver.get('https://staging.e-food.gr/account/orders');
 		
-		user_orders.ViewMoreOrders(driver).then((val)=>{
-			assert.equal(val, "Completed");
-		});
-		user_orders.ViewMoreOrders(driver).then((val)=>{
-			assert.equal(val, "Completed");
-		});
-		user_orders.ViewMoreOrders(driver).then((val)=>{
+		user_orders.ReOrder(driver).then((val)=>{
 			assert.equal(val, "Completed");
 		});
 	});
