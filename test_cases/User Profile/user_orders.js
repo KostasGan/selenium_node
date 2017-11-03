@@ -29,7 +29,7 @@ function SelectStars(driver, numOfQuality, numOfDT, numOfService) {
         return 'Failed';
     });
 }
-
+ 
 function TextAreaChecks(driver, mean) {
     return driver.wait(until.elementIsVisible(driver.findElement(By.css('textarea'))), 1000).then((textfield) => {
         if (mean <= 2.33) {
