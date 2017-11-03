@@ -10,6 +10,7 @@ const shoplist = require('./test_cases/shoplist.js');
 const shopProfile = require('./test_cases/shop_profile.js');
 //const checkout = require('./test_cases/checkout.js');
 const user_orders = require('./test_cases/User Profile/user_orders');
+const chrome = require('selenium-webdriver/chrome');
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
@@ -28,7 +29,8 @@ test.describe('First Test Case', function () {
 	test.before(() => {
 		driver = new webdriver
 		.Builder()
-		.withCapabilities(webdriver.Capabilities.chrome())
+		.forBrowser('chrome')
+		.setChromeOptions(new chrome.Options().addArguments('--headless'))
 		.build();
 
 	});
@@ -81,6 +83,12 @@ test.describe('First Test Case', function () {
 
 		driver.get('https://staging.e-food.gr/account/orders');
 		
+		user_orders.ViewMoreOrders(driver).then((val)=>{
+			assert.equal(val, "Completed");
+		});
+		user_orders.ViewMoreOrders(driver).then((val)=>{
+			assert.equal(val, "Completed");
+		});
 		user_orders.ViewMoreOrders(driver).then((val)=>{
 			assert.equal(val, "Completed");
 		});
