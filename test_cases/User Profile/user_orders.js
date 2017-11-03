@@ -29,11 +29,6 @@ function SelectStars(driver, numOfQuality, numOfDT, numOfService) {
         return 'Failed';
     });
 }
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> 9ca2929... Merge pull request #5 from KostasGan/Feature/UserOrders
 function TextAreaChecks(driver, mean) {
     return driver.wait(until.elementIsVisible(driver.findElement(By.css('textarea'))), 1000).then((textfield) => {
         if (mean <= 2.33) {
