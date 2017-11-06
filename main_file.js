@@ -9,7 +9,12 @@ const address = require('./test_cases/address.js');
 const shoplist = require('./test_cases/shoplist.js');
 const shopProfile = require('./test_cases/shop_profile.js');
 //const checkout = require('./test_cases/checkout.js');
+<<<<<<< HEAD
 
+=======
+const user_infos = require('./test_cases/User Profile/user_infos');
+const chrome = require('selenium-webdriver/chrome');
+>>>>>>> 8d75b9af11865cff15252de44d016e174bd9bd46
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
@@ -23,19 +28,34 @@ let creds = {
 	'sms_pass': config.get('User.sms_pass')
 };
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8d75b9af11865cff15252de44d016e174bd9bd46
 //Mocha TestCases
 test.describe('First Test Case', function () {
-	test.beforeEach(function () {
+	test.before(function () {
 		driver = new webdriver
 			.Builder()
-			.withCapabilities(webdriver.Capabilities.chrome())
+			.forBrowser('chrome')
+			//.setChromeOptions(new chrome.Options().addArguments('--headless'))
 			.build();
 
 		driver.manage().window().maximize();
 	});
 
+<<<<<<< HEAD
 	test.afterEach(function () {
 		driver.quit();
+=======
+	test.beforeEach(function(){
+		driver.getWindowHandle();
+	});
+
+	test.after(function () {
+		//driver.quit();
+>>>>>>> 8d75b9af11865cff15252de44d016e174bd9bd46
 	});
 	for(i=0; i< 15; i++){
 	test.it('Anonymous Flow From Homepage', function () {
@@ -53,8 +73,31 @@ test.describe('First Test Case', function () {
 		shopProfile.MakeOrderInShopProfile(driver, creds);
 		driver.sleep(600);
 	});
+<<<<<<< HEAD
 	
 }
+=======
+
+	//test.it('User Profile1', function () {		
+		//this.timeout(50000);		
+			
+		// 	driver.get(url);		
+		// 	//driver.get(url1);		
+			
+		// 	login.Login(driver,creds).then((val)=>{		
+		// 		assert.ok(val);		
+		// 	});		
+			
+		// 	driver.get('https://staging.e-food.gr/account/orders');		
+					
+		// 	user_orders.AddTwoStarsRating(driver).then((val)=>{		
+		// 		assert.equal(val, "Completed");		
+		// 	});		
+		// 	user_orders.AddFiveStarsRating(driver).then((val)=>{		
+		// 		assert.equal(val, "Completed");		
+		// 	});		
+		// });
+>>>>>>> 8d75b9af11865cff15252de44d016e174bd9bd46
 	// test.it('Anonymous Flow From ShopProfile', function(){
 
 	// 	this.timeout(50000);
