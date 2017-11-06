@@ -10,6 +10,7 @@ const shoplist = require('./test_cases/shoplist.js');
 const shopProfile = require('./test_cases/shop_profile.js');
 //const checkout = require('./test_cases/checkout.js');
 const user_infos = require('./test_cases/User Profile/user_infos');
+const chrome = require('selenium-webdriver/chrome');
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
@@ -26,16 +27,21 @@ let creds = {
 
 //Mocha TestCases
 test.describe('First Test Case', function () {
-	test.beforeEach(function () {
+	test.before(function () {
 		driver = new webdriver
 			.Builder()
-			.withCapabilities(webdriver.Capabilities.chrome())
+			.forBrowser('chrome')
+			//.setChromeOptions(new chrome.Options().addArguments('--headless'))
 			.build();
 
 		driver.manage().window().maximize();
 	});
 
-	test.afterEach(function () {
+	test.beforeEach(function(){
+		driver.getWindowHandle();
+	});
+
+	test.after(function () {
 		//driver.quit();
 	});
 
@@ -71,6 +77,26 @@ test.describe('First Test Case', function () {
 			assert.equal(val, "Completed");
 		});
 	});
+
+	//test.it('User Profile1', function () {		
+		//this.timeout(50000);		
+			
+		// 	driver.get(url);		
+		// 	//driver.get(url1);		
+			
+		// 	login.Login(driver,creds).then((val)=>{		
+		// 		assert.ok(val);		
+		// 	});		
+			
+		// 	driver.get('https://staging.e-food.gr/account/orders');		
+					
+		// 	user_orders.AddTwoStarsRating(driver).then((val)=>{		
+		// 		assert.equal(val, "Completed");		
+		// 	});		
+		// 	user_orders.AddFiveStarsRating(driver).then((val)=>{		
+		// 		assert.equal(val, "Completed");		
+		// 	});		
+		// });
 	// test.it('Anonymous Flow From ShopProfile', function(){
 
 	// 	this.timeout(50000);
