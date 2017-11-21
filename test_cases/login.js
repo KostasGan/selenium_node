@@ -13,11 +13,11 @@ function LoginModalFuncs(driver, creds) {
 		return driver.wait(until.elementLocated(By.css('span.user-options')), 5000).then((logged_name) => {
 			return logged_name.getText().then((text) => {
 				if (text === 'Κώστας')
-					return 'true';
+					return true;
 			});
 		}).catch((e) => {
 			console.log('Something bad happen \n' + e);
-			return 'false';
+			return false;
 		});
 	});
 }
