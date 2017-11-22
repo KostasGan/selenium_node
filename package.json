@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "^1.27.0",
+    "config": "^1.28.1",
     "express": "^4.16.2",
     "selenium-webdriver": "^3.6.0"
   },
