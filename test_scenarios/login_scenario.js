@@ -1,11 +1,10 @@
 const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
-const config = require('config');
 const login = require('../test_cases/login');
 const chrome = require('selenium-webdriver/chrome');
 
-exports.LoginScenarios = (driver, url, creds) => {
+exports.Login = (driver, url, creds) => {
 	test.describe('Login Functionality Tests', function() {
 		test.beforeEach(function() {
 			driver = new webdriver
@@ -16,11 +15,9 @@ exports.LoginScenarios = (driver, url, creds) => {
 
 			driver.manage().window().maximize();
 		});
-
 		test.after(function() {
 			driver.quit();
 		});
-
 		test.it('Successfully Login', function() {
 			this.timeout(15000);
 
