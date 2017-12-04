@@ -101,25 +101,24 @@ exports.MakeOrderInShopProfile = (driver, creds) => {
 			exports.AddOffer(driver);
 			//AddOffer(driver);
 
-			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
+			return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
 				if (cart_items.length > 0) {
-					driver.findElement(By.id('continue-btn')).then((button) => {
-						button.isEnabled().then((value) => {
+					return driver.findElement(By.id('continue-btn')).then((button) => {
+						return button.isEnabled().then((value) => {
 							if (value) {
-								driver.sleep(200);
+								driver.sleep(600);
 								button.click();
-								login.Login(driver, creds);
-								checkout.SubmitOrder(driver, creds.sms_pass);
+								return 'Completed';
 							}
-							else {
-								driver.findElement(By.css('p.min-charge')).then((min_charge) => {
-									min_charge.isDisplayed().then((val) => {
-										if (val) {
-											AddItemToCart(driver);
-										}
-									});
-								}).catch((e) => { console.log("Cannot find Min_Charge in Cart \n" + e); });
-							}
+							// else {
+							// 	driver.findElement(By.css('p.min-charge')).then((min_charge) => {
+							// 		min_charge.isDisplayed().then((val) => {
+							// 			if (val) {
+							// 				AddItemToCart(driver);
+							// 			}
+							// 		});
+							// 	}).catch((e) => { console.log("Cannot find Min_Charge in Cart \n" + e); });
+							// }
 						});
 					}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });
 				}
