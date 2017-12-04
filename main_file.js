@@ -1,13 +1,9 @@
 const config = require('config');
 // const register = require('./test_cases/register');
-// //const logout = require('./test_cases/logout');
-// const address = require('./test_cases/address');
-// const shoplist = require('./test_cases/shoplist');
-// const shopProfile = require('./test_cases/shop_profile');
-//const checkout = require('./test_cases/checkout');
 //const user_infos = require('./test_cases/User Profile/user_infos');
 const login_scenarios = require('./test_scenarios/login_scenario').Login;
 const logout_scenarios = require('./test_scenarios/logout_scenario').Logout;
+const loggedInFlow_scenarios = require('./test_scenarios/loggedInflow_scenario').LoggedInFlow;
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
@@ -22,3 +18,4 @@ let creds = {
 
 login_scenarios(driver, url, creds);
 logout_scenarios(driver, url, creds);
+loggedInFlow_scenarios(driver, url, creds);
