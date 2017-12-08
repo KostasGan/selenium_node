@@ -3,15 +3,15 @@ const test = require('selenium-webdriver/testing');
 const assert = require('assert');
 const login = require('../test_cases/login');
 const logout = require('../test_cases/logout');
-const chrome = require('selenium-webdriver/chrome');
 
-exports.Logout = (driver, url, creds) => {
+
+exports.Logout = (driver, chromeSettings, url, creds) => {
 	test.describe('Logout Functionality Tests', function() {
 		test.beforeEach(function() {
 			driver = new webdriver
 				.Builder()
 				.forBrowser('chrome')
-				.setChromeOptions(new chrome.Options().addArguments('--headless'))
+				.setChromeOptions(chromeSettings)
 				.build();
 
 			driver.manage().window().maximize();

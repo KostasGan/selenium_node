@@ -6,9 +6,8 @@ const address = require('../test_cases/address');
 const shoplist = require('../test_cases/shoplist');
 const shopProfile = require('../test_cases/shop_profile');
 const checkout = require('../test_cases/checkout.js');
-const chrome = require('selenium-webdriver/chrome');
 
-exports.LoggedInFlow = (driver, url, creds) => {
+exports.LoggedInFlow = (driver, chromeSettings, url, creds) => {
 	test.describe('LoggedIn Flow end-to-end Functionality Tests', function() {
 		this.timeout(60000);
 
@@ -16,7 +15,7 @@ exports.LoggedInFlow = (driver, url, creds) => {
 			driver = new webdriver
 				.Builder()
 				.forBrowser('chrome')
-				.setChromeOptions(new chrome.Options().addArguments())
+				.setChromeOptions(chromeSettings)
 				.build();
 
 			driver.manage().window().maximize();
