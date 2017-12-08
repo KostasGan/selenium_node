@@ -24,7 +24,6 @@ exports.AddAddressAnonymous = (driver) => {
 		});
 }
 
-
 exports.SelectAddress = ((driver) => {
 	return driver.wait(until.elementLocated(By.id('search-form-component')), 3000).then((address_box) => {
 		return address_box.findElement(By.css('div.Select-value > span')).then((address) => {
@@ -35,12 +34,12 @@ exports.SelectAddress = ((driver) => {
 				else {
 					address_box.findElement(By.css('div.Select-input > input')).sendKeys('409');
 					driver.sleep(500);
-					return driver.wait(until.elementsLocated(By.css('div.Select-menu-outer > div > div')), 1000).then((user_addresses) => {
+					return driver.wait(until.elementsLocated(By.css('div.Select-menu-outer > div > div')), 3000).then((user_addresses) => {
 						if (user_addresses.length > 0) {
 							return user_addresses[0].getText().then((address_text) => {
 								if (address_text === 'Λεωφόρος Ηρακλείου 409, Αθήνα, Ηράκλειο, 14122') {
 									user_addresses[0].click();
-									address_box.findElement(By.css('button.button-primary')).click();
+									//address_box.findElement(By.css('button.button-primary')).click();
 									return 'Completed';
 								}
 								else {
