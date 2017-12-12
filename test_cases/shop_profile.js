@@ -44,6 +44,7 @@ function selectItemsOptions(driver) {
 }
 
 function AddItemToCart(driver) {
+	driver.sleep(500);
 	driver.findElement(By.id('IT_000000000402')).then((item) => {
 		item.getAttribute('class').then((val) => {
 			if (val.indexOf('disabled') === -1) {
@@ -60,7 +61,7 @@ function AddItemToCart(driver) {
 }
 
 exports.AddOffer = function (driver) {
-	driver.sleep(250);
+	driver.sleep(500);
 	driver.wait(until.elementLocated(By.css('ul.offers-list > li:nth-child(3)')), 1000).then((offer) => {
 		offer.click();
 		driver.wait(until.elementLocated(By.id('popup_offer_wizard')), 1000).then((offer_modal) => {

@@ -133,6 +133,7 @@ exports.SubmitOrder = (driver, sms_pass) => {
 
                 return driver.wait(until.elementLocated(By.id('confirmationpopup')), 3000).then((confirm_popup) => {
                     driver.wait(until.elementIsVisible(confirm_popup), 3000);
+                    driver.sleep(500);
                     return 'Completed';
                 });
             }
