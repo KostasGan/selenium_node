@@ -30,6 +30,7 @@ exports.SelectAddress = ((driver) => {
 			return address.getText().then((text) => {
 				if (text === 'Λεωφόρος Ηρακλείου 409, Αθήνα, Ηράκλειο, 14122') {
 					address_box.findElement(By.css('button.button-primary')).click();
+					return 'Completed';
 				}
 				else {
 					address_box.findElement(By.css('div.Select-input > input')).sendKeys('409');
@@ -39,7 +40,7 @@ exports.SelectAddress = ((driver) => {
 							return user_addresses[0].getText().then((address_text) => {
 								if (address_text === 'Λεωφόρος Ηρακλείου 409, Αθήνα, Ηράκλειο, 14122') {
 									user_addresses[0].click();
-									//address_box.findElement(By.css('button.button-primary')).click();
+									address_box.findElement(By.css('button.button-primary')).click();
 									return 'Completed';
 								}
 								else {
