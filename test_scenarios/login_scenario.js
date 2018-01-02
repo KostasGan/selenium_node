@@ -15,7 +15,7 @@ exports.Login = (driver, chromeSettings, url, creds) => {
 
 			driver.manage().window().maximize();
 		});
-		test.after(function() {
+		test.afterEach(function() {
 			driver.quit();
 		});
 		test.it('Successfully Login', function() {
