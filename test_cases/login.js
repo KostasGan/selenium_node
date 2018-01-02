@@ -3,7 +3,7 @@ let { By, until } = require('selenium-webdriver');
 //
 // Functionality for Login.
 function LoginModalFuncs(driver, creds) {
-	//driver.sleep(550);
+	driver.wait(until.elementIsNotVisible(driver.findElement(By.css('div.is-loading'))), 1500);
 
 	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
 		emailField.sendKeys(creds.email);
@@ -11,10 +11,9 @@ function LoginModalFuncs(driver, creds) {
 	driver.wait(until.elementIsVisible(driver.findElement(By.id('pass'))), 2000).then((passField) => {
 		passField.sendKeys(creds.pass);
 	});
-	//driver.findElement().sendKeys(creds.pass);
 
-	return driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
-		//driver.sleep(300);
+	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.login-form-submit'))), 3500).then((button) => {
+		button.click();
 		return driver.wait(until.elementLocated(By.id('userlink')), 3000).then((userlink) => {
 			return driver.wait(until.elementIsVisible(userlink), 2000).then((logged_name) => {
 				return logged_name.getText().then((text) => {
@@ -27,11 +26,12 @@ function LoginModalFuncs(driver, creds) {
 			return false;
 		});
 	});
+
 }
 
 // Functionality for Login-Fail Scenario
 function WrongCredsFuncs(driver, email, pass) {
-	//driver.sleep(600);
+	driver.wait(until.elementIsNotVisible(driver.findElement(By.css('div.is-loading'))), 1500);
 
 	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
 		emailField.sendKeys(email);
@@ -40,7 +40,7 @@ function WrongCredsFuncs(driver, email, pass) {
 		passField.sendKeys(pass);
 	});
 
-	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.button.button-primary.login-form-submit'))), 1500).then((button) => {
+	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.login-form-submit'))), 1500).then((button) => {
 		button.click();
 
 		return driver.wait(until.elementLocated(By.css('span.help-block.form-error')), 2000).then((empty_error) => {
