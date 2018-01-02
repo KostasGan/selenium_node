@@ -3,17 +3,24 @@ let { By, until } = require('selenium-webdriver');
 //
 // Functionality for Login.
 function LoginModalFuncs(driver, creds) {
-	driver.sleep(550);
+	//driver.sleep(550);
 
-	driver.findElement(By.id('login_email')).sendKeys(creds.email);
-	driver.findElement(By.id('pass')).sendKeys(creds.pass);
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
+		emailField.sendKeys(creds.email);
+	});
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('pass'))), 2000).then((passField) => {
+		passField.sendKeys(creds.pass);
+	});
+	//driver.findElement().sendKeys(creds.pass);
 
 	return driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
-		driver.sleep(300);
-		return driver.wait(until.elementLocated(By.id('userlink')), 5000).then((logged_name) => {
-			return logged_name.getText().then((text) => {
-				if (text === 'Κώστας')
-					return true;
+		//driver.sleep(300);
+		return driver.wait(until.elementLocated(By.id('userlink')), 3000).then((userlink) => {
+			return driver.wait(until.elementIsVisible(userlink), 2000).then((logged_name) => {
+				return logged_name.getText().then((text) => {
+					if (text === 'Κώστας')
+						return true;
+				});
 			});
 		}).catch((e) => {
 			console.log('Something bad happen \n' + e);
@@ -24,14 +31,20 @@ function LoginModalFuncs(driver, creds) {
 
 // Functionality for Login-Fail Scenario
 function WrongCredsFuncs(driver, email, pass) {
-	driver.sleep(600);
+	//driver.sleep(600);
 
-	driver.findElement(By.id('login_email')).sendKeys(email);
-	driver.findElement(By.id('pass')).sendKeys(pass);
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
+		emailField.sendKeys(email);
+	});
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('pass'))), 2000).then((passField) => {
+		passField.sendKeys(pass);
+	});
 
-	return driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
+	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.button.button-primary.login-form-submit'))), 1500).then((button) => {
+		button.click();
+
 		return driver.wait(until.elementLocated(By.css('span.help-block.form-error')), 2000).then((empty_error) => {
-			driver.wait(until.elementIsVisible(empty_error), 1000);
+			driver.wait(until.elementIsVisible(empty_error), 1500);
 
 			return empty_error.getAttribute('innerHTML').then((message) => {
 				if (message === '(1) Τα στοιχεία δεν είναι σωστά') {
