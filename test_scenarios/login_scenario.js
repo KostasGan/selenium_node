@@ -2,20 +2,20 @@ const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
 const login = require('../test_cases/login');
-const chrome = require('selenium-webdriver/chrome');
 
-exports.Login = (driver, url, creds) => {
+
+exports.Login = (driver, chromeSettings, url, creds) => {
 	test.describe('Login Functionality Tests', function() {
 		test.beforeEach(function() {
 			driver = new webdriver
 				.Builder()
 				.forBrowser('chrome')
-				.setChromeOptions(new chrome.Options().addArguments('--headless'))
+				.setChromeOptions(chromeSettings)
 				.build();
 
 			driver.manage().window().maximize();
 		});
-		test.after(function() {
+		test.afterEach(function() {
 			driver.quit();
 		});
 		test.it('Successfully Login', function() {
