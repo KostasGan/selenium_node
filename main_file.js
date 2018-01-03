@@ -1,23 +1,21 @@
 const config = require('config');
-const webdriver = require('selenium-webdriver');
-const test = require('selenium-webdriver/testing');
-const assert = require('assert');
-const login = require('./test_cases/login.js');
-const register = require('./test_cases/register.js');
-//const logout = require('./test_cases/logout.js');
-const address = require('./test_cases/address.js');
-const shoplist = require('./test_cases/shoplist.js');
-const shopProfile = require('./test_cases/shop_profile.js');
-//const checkout = require('./test_cases/checkout.js');
-const user_infos = require('./test_cases/User Profile/user_infos');
 const chrome = require('selenium-webdriver/chrome');
+// const register = require('./test_cases/register');
+//const user_infos = require('./test_cases/User Profile/user_infos');
+const login_scenarios = require('./test_scenarios/login_scenario').Login;
+const logout_scenarios = require('./test_scenarios/logout_scenario').Logout;
+const loggedInFlow_scenarios = require('./test_scenarios/loggedInflow_scenario').LoggedInFlow;
 
 //configs 
 let ngcreds = config.get('Env.ngusrnm') + ':' + config.get('Env.ngpass') + '@';
 let main_url = config.get('Env.url');
 let url = 'https://' + ngcreds + main_url;
+<<<<<<< HEAD
 let url1 = 'https://' + main_url; 
 let driver;
+=======
+let driver, chromeSettings = new chrome.Options().addArguments(config.get('ChromeSettings'));
+>>>>>>> bf8c32df90b199e9cc6bae110102d2a2d2374f5e
 let creds = {
 	'email': config.get('User.email'),
 	'pass': config.get('User.pass'),

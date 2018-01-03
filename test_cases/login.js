@@ -3,64 +3,78 @@ let { By, until } = require('selenium-webdriver');
 //
 // Functionality for Login.
 function LoginModalFuncs(driver, creds) {
-	driver.sleep(550);
+	driver.wait(until.elementIsNotVisible(driver.findElement(By.css('div.is-loading'))), 1500);
 
-	driver.findElement(By.id('login_email')).sendKeys(creds.email);
-	driver.findElement(By.id('pass')).sendKeys(creds.pass);
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
+		emailField.sendKeys(creds.email);
+	});
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('pass'))), 2000).then((passField) => {
+		passField.sendKeys(creds.pass);
+	});
 
-	return driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
-		driver.sleep(300);
-		return driver.wait(until.elementLocated(By.css('span.user-options')), 5000).then((logged_name) => {
-			return logged_name.getText().then((text) => {
-				if (text === 'Κώστας')
-					return 'true';
+	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.login-form-submit'))), 3500).then((button) => {
+		button.click();
+		return driver.wait(until.elementLocated(By.id('userlink')), 3000).then((userlink) => {
+			return driver.wait(until.elementIsVisible(userlink), 2000).then((logged_name) => {
+				return logged_name.getText().then((text) => {
+					if (text === 'Κώστας')
+						return true;
+				});
 			});
 		}).catch((e) => {
 			console.log('Something bad happen \n' + e);
-			return 'false';
+			return false;
 		});
 	});
+
 }
 
 // Functionality for Login-Fail Scenario
 function WrongCredsFuncs(driver, email, pass) {
-	driver.sleep(600);
-	driver.findElement(By.id('login_email')).sendKeys(email);
-	driver.findElement(By.id('pass')).sendKeys(pass);
+	driver.wait(until.elementIsNotVisible(driver.findElement(By.css('div.is-loading'))), 1500);
 
-	driver.findElement(By.css('button.button.button-primary.login-form-submit')).click().then(() => {
-		return driver.wait(until.elementLocated(By.css('span.help-block.form-error')), 2000)
-			.then((empty_error) => {
-				driver.wait(until.elementIsVisible(empty_error), 1000);
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('login_email'))), 2000).then((emailField) => {
+		emailField.sendKeys(email);
+	});
+	driver.wait(until.elementIsVisible(driver.findElement(By.id('pass'))), 2000).then((passField) => {
+		passField.sendKeys(pass);
+	});
 
-				return empty_error.getAttribute('innerHTML')
-					.then((message) => {
-						if (message === '(1) Τα στοιχεία δεν είναι σωστά')
-							return 'Completed -> Wrong Creds';
-						else
-							return 'Failed';
-					});
-			})
-			.catch((e) => {
-				console.log('Something bad happen \n' + e.message);
-				return 'Failed';
+	return driver.wait(until.elementIsVisible(driver.findElement(By.css('button.login-form-submit'))), 1500).then((button) => {
+		button.click();
+
+		return driver.wait(until.elementLocated(By.css('span.help-block.form-error')), 2000).then((empty_error) => {
+			driver.wait(until.elementIsVisible(empty_error), 1500);
+
+			return empty_error.getAttribute('innerHTML').then((message) => {
+				if (message === '(1) Τα στοιχεία δεν είναι σωστά') {
+					return 'Completed -> Wrong Creds';
+				}
+				else {
+					return 'Failed';
+				}
 			});
+		}).catch((e) => {
+			console.log('Something bad happen \n' + e.message);
+			return 'Failed';
+		});
 	}).then((message) => {
 		console.log('Login Test for Fail Scenario -> Status: ' + message);
+		return message;
 	});
 }
 
 //Exported Function for Login
 exports.Login = (driver, creds) => {
 	return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-		return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+		return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 1000).then(() => {
 			return LoginModalFuncs(driver, creds);
 		});
 	}).catch(() => {
 		console.log('Login Modal isn`t open. Continue by pressing Login Button. \n');
 		driver.findElement(By.css('a.user-login')).click();
 		return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-			return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+			return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 1000).then(() => {
 				return LoginModalFuncs(driver, creds);
 			});
 		});
@@ -92,16 +106,16 @@ exports.Login = (driver, creds) => {
 exports.LoginWithWrongCreds = (driver) => {
 	console.log('Login Test With Wrong Creds begin:');
 
-	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-		driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
-			WrongCredsFuncs(driver, 'kostas.efood-5@gmail.com', 'add');
+	return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+			return WrongCredsFuncs(driver, 'kostas.efood-5@gmail.com', 'add');
 		});
 	}).catch(() => {
 		console.log('Login Modal isn`t open. Continue by pressing Login Button. \n');
 		driver.findElement(By.css('a.user-login')).click();
-		driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
-			driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
-				WrongCredsFuncs(driver, 'kostas.efood-5@gmail.com', 'add');
+		return driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+			return driver.wait(until.elementLocated(By.css('form.login-form > div.form-group')), 2000).then(() => {
+				return WrongCredsFuncs(driver, 'kostas.efood-5@gmail.com', 'add');
 			});
 		});
 	});

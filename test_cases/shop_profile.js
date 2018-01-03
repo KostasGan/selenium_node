@@ -43,8 +43,14 @@ function selectItemsOptions(driver) {
 	}).catch((e) => { console.error('Item Modal hasn`t found \n' + e); });
 }
 
+<<<<<<< HEAD
 function AddItemToCart(driver,item_id) {
 	driver.findElement(By.id(item_id)).then((item) => {
+=======
+function AddItemToCart(driver) {
+	driver.sleep(500);
+	driver.findElement(By.id('IT_000000000402')).then((item) => {
+>>>>>>> bf8c32df90b199e9cc6bae110102d2a2d2374f5e
 		item.getAttribute('class').then((val) => {
 			if (val.indexOf('disabled') === -1) {
 				item.click();
@@ -60,7 +66,7 @@ function AddItemToCart(driver,item_id) {
 }
 
 exports.AddOffer = function (driver) {
-	driver.sleep(250);
+	driver.sleep(500);
 	driver.wait(until.elementLocated(By.css('ul.offers-list > li:nth-child(3)')), 1000).then((offer) => {
 		offer.click();
 		driver.wait(until.elementLocated(By.id('popup_offer_wizard')), 1000).then((offer_modal) => {
@@ -103,25 +109,24 @@ exports.MakeOrderInShopProfile = (driver, creds) => {
 			//exports.AddOffer(driver);
 			//AddOffer(driver);
 
-			driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
+			return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
 				if (cart_items.length > 0) {
-					driver.findElement(By.id('continue-btn')).then((button) => {
-						button.isEnabled().then((value) => {
+					return driver.findElement(By.id('continue-btn')).then((button) => {
+						return button.isEnabled().then((value) => {
 							if (value) {
-								driver.sleep(200);
+								driver.sleep(600);
 								button.click();
-								login.Login(driver, creds);
-								checkout.SubmitOrder(driver, creds.sms_pass);
+								return 'Completed';
 							}
-							else {
-								driver.findElement(By.css('p.min-charge')).then((min_charge) => {
-									min_charge.isDisplayed().then((val) => {
-										if (val) {
-											AddItemToCart(driver);
-										}
-									});
-								}).catch((e) => { console.log("Cannot find Min_Charge in Cart \n" + e); });
-							}
+							// else {
+							// 	driver.findElement(By.css('p.min-charge')).then((min_charge) => {
+							// 		min_charge.isDisplayed().then((val) => {
+							// 			if (val) {
+							// 				AddItemToCart(driver);
+							// 			}
+							// 		});
+							// 	}).catch((e) => { console.log("Cannot find Min_Charge in Cart \n" + e); });
+							// }
 						});
 					}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });
 				}

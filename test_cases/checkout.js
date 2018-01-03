@@ -117,11 +117,15 @@ function AddCoupon(driver) {
 }
 
 exports.SubmitOrder = (driver, sms_pass) => {
+<<<<<<< HEAD
     driver.wait(until.urlContains('/orders/form?shop_id=299540'), 3000).then(() => {
+=======
+    return driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
+>>>>>>> bf8c32df90b199e9cc6bae110102d2a2d2374f5e
         opt = ValidateOrderInfo(driver);
         //AddCoupon(driver);
         SelectPaymentMethod(driver, 'cash');
-        driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
+        return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
             if (cart_items.length > 0) {
                 driver.findElement(By.css('input#sendorder')).click().then(() => {
                     opt.then((opt) => {
@@ -131,9 +135,14 @@ exports.SubmitOrder = (driver, sms_pass) => {
                     });
                 }).catch((e) => { console.log('Driver Cant Find SendOrder Button \n' + e); });
 
-                driver.wait(until.elementLocated(By.id('confirmationpopup')), 3000).then((confirm_popup) => {
+                return driver.wait(until.elementLocated(By.id('confirmationpopup')), 3000).then((confirm_popup) => {
                     driver.wait(until.elementIsVisible(confirm_popup), 3000);
+<<<<<<< HEAD
                     console.log('done');
+=======
+                    driver.sleep(500);
+                    return 'Completed';
+>>>>>>> bf8c32df90b199e9cc6bae110102d2a2d2374f5e
                 });
             }
         }).catch((e) => { console.log('Driver Cant find Cart Items \n' + e); });
