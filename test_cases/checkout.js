@@ -90,7 +90,7 @@ function SelectPaymentMethod(driver, option) {
     }
 }
 
-function AddCoupon(driver) {
+exports.AddCoupon = function(driver) {
     driver.wait(until.elementLocated(By.css('div.order-content-wrapper')), 300).then((info) => {
         info.findElement(By.id('coupon_code')).then((coupon) => {
             coupon.sendKeys('kgan');
@@ -119,7 +119,6 @@ function AddCoupon(driver) {
 exports.SubmitOrder = (driver, sms_pass) => {
     return driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
         opt = ValidateOrderInfo(driver);
-        //AddCoupon(driver);
         SelectPaymentMethod(driver, 'cash');
         return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
             if (cart_items.length > 0) {
@@ -133,7 +132,7 @@ exports.SubmitOrder = (driver, sms_pass) => {
 
                 return driver.wait(until.elementLocated(By.id('confirmationpopup')), 3000).then((confirm_popup) => {
                     driver.wait(until.elementIsVisible(confirm_popup), 3000);
-                    driver.sleep(500);
+                    driver.wait(until.elementIsVisible(confirm_popup.findElement(By.css('section.modal-text'))), 15000);
                     return 'Completed';
                 });
             }
