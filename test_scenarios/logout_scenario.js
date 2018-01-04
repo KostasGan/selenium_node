@@ -7,6 +7,8 @@ const logout = require('../test_cases/logout');
 
 exports.Logout = (driver, chromeSettings, url, creds) => {
 	test.describe('Logout Functionality Tests', function() {
+		this.timeout(15000);
+
 		test.beforeEach(function() {
 			driver = new webdriver
 				.Builder()
@@ -20,8 +22,6 @@ exports.Logout = (driver, chromeSettings, url, creds) => {
 			driver.quit();
 		});
 		test.it('Successfully Login - Successfully Logout', function() {
-			this.timeout(15000);
-
 			driver.get(url);
 
 			login.Login(driver, creds).then((val) => {
