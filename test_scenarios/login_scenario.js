@@ -7,7 +7,8 @@ const login = require('../test_cases/login');
 exports.Login = (driver, chromeSettings, url, creds) => {
 	test.describe('Login Functionality Tests', function() {
 		this.timeout(20000);
-
+		this.slow(7500);
+		
 		test.beforeEach(function() {
 			driver = new webdriver
 				.Builder()

@@ -9,8 +9,9 @@ const checkout = require('../test_cases/checkout.js');
 
 exports.LoggedInFlow = (driver, chromeSettings, url, creds) => {
 	test.describe('LoggedIn Flow end-to-end Functionality Tests', function () {
-		this.timeout(60000);
-
+		this.timeout(35000);
+		this.slow(10000);
+		
 		test.before(function () {
 			driver = new webdriver
 				.Builder()

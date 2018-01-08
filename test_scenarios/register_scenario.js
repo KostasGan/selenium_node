@@ -6,7 +6,8 @@ const register = require('../test_cases/register');
 
 exports.Register = (driver, chromeSettings, url, creds) => {
 	test.describe('Register Functionality Tests', function() {
-		this.timeout(30000);
+		this.timeout(15000);
+		this.slow(7500);
 
 		test.beforeEach(function() {
 			driver = new webdriver
