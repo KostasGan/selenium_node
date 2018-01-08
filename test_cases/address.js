@@ -1,20 +1,24 @@
 let { By, until } = require('selenium-webdriver');
+let button;
 
 exports.AddAddressAnonymous = (driver) => {
 	return driver.wait(until.elementLocated(By.css('div.geosuggest__input-wrapper')), 2000).then((AddressWrapper) => {
-		driver.wait(until.elementLocated(By.id('geosuggest-addressbox')), 3000).then((address_field) => {
+
+		button = AddressWrapper.findElement(By.css('div.geosuggest__input-wrapper > button.button-primary'));
+
+		driver.wait(until.elementLocated(By.id('geosuggest-addressbox')), 1500).then((address_field) => {
 			address_field.sendKeys('Λεωφόρος Ηρακλείου 409 Ηράκλειο');
 		});
 
-		driver.wait(until.elementLocated(By.id('react-autowhatever-1--item-0')), 3000).then((suggest) => {
+		driver.wait(until.elementLocated(By.id('react-autowhatever-1--item-0')), 2000).then((suggest) => {
 			suggest.click();
 		});
 
-		driver.wait(until.elementIsVisible(AddressWrapper.findElement(By.css('div.geosuggest__input-wrapper > button.button-primary'))), 1500).then((button) => {
+		driver.wait(until.elementIsVisible(button), 1500).then(() => {
 			button.click();
 		});
 
-		return driver.wait(until.elementLocated(By.css('form.address')), 5000).then((formAddress) => {
+		return driver.wait(until.elementLocated(By.css('form.address')), 1500).then((formAddress) => {
 			return driver.wait(until.elementIsVisible(formAddress), 1500).then(() => {
 				formAddress.findElement(By.id('submit_btn')).click();
 				return true;
