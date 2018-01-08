@@ -2,6 +2,7 @@ let { By, until } = require('selenium-webdriver');
 const login = require('./login.js');
 const checkout = require('./checkout.js');
 const address = require('./address.js');
+let cart_button;
 
 function selectItemsOptions(driver) {
 	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 3000)).then((popup_menu) => {
@@ -103,11 +104,11 @@ exports.MakeOrderInShopProfile = (driver, creds) => {
 		//exports.AddOffer(driver);
 
 		return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
-			//let button = driver.findElement(By.id('continue-btn'));
+			cart_button = driver.findElement(By.id('continue-btn'));
 
 			if (cart_items.length > 0) {
-				return driver.wait(until.elementIsEnabled(driver.findElement(By.id('continue-btn'))), 1500).then((button) => {
-					button.click();
+				return driver.wait(until.elementIsEnabled(cart_button), 1500).then(() => {
+					cart_button.click();
 					return 'Completed';
 				}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });
 			}
