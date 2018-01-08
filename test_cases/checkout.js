@@ -117,7 +117,7 @@ exports.AddCoupon = function(driver) {
 }
 
 exports.SubmitOrder = (driver, sms_pass) => {
-    return driver.wait(until.urlContains('/orders/form?shop_id=968814'), 3000).then(() => {
+    return driver.wait(until.urlContains('/orders/form?shop_id=968814'), 5000).then(() => {
         opt = ValidateOrderInfo(driver);
         SelectPaymentMethod(driver, 'cash');
         return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
