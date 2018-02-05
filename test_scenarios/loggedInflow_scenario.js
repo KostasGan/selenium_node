@@ -18,8 +18,6 @@ exports.LoggedInFlow = (driver, chromeSettings, url, creds) => {
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
-
-			driver.manage().window().maximize();
 		});
 		test.beforeEach(function () {
 			driver.getWindowHandle();
