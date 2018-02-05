@@ -2,6 +2,7 @@ let { By, until } = require('selenium-webdriver');
 const login = require('./login.js');
 const checkout = require('./checkout.js');
 const address = require('./address.js');
+let cart_button;
 
 function selectItemsOptions(driver) {
 	return driver.wait(until.elementLocated(By.css('div#popup_menu_item'), 3000)).then((popup_menu) => {
@@ -60,6 +61,14 @@ function AddItemToCart(driver) {
 	});
 }
 
+
+exports.CheckForNoAddress = (driver) => {
+	return driver.wait(until.elementLocated(By.css('div.order-steps div.hidden-xs button')), 1000).then((button) => {
+		button.click();
+		return true;
+	});
+}
+
 exports.AddOffer = function (driver) {
 	driver.sleep(500);
 	driver.wait(until.elementLocated(By.css('ul.offers-list > li:nth-child(3)')), 1000).then((offer) => {
@@ -89,41 +98,20 @@ exports.AddOffer = function (driver) {
 }
 
 exports.MakeOrderInShopProfile = (driver, creds) => {
-	return driver.getCurrentUrl().then((current_url) => {
-		if (current_url.indexOf('/delivery/neo-irakleio/blue-shark') !== -1) {
+	return driver.wait(until.urlContains('/delivery/neo-irakleio/blue-shark'), 3000).then(() => {
 
-			driver.wait(until.elementLocated(By.css('div.order-steps div.hidden-xs button')), 1000).then((button) => {
-				button.click();
-				address.AddAddressAnonymous(driver);
-			}).catch((e) => { });
+		AddItemToCart(driver);
+		//exports.AddOffer(driver);
 
-			//AddItemToCart(driver);
-			AddItemToCart(driver);
-			exports.AddOffer(driver);
-			//AddOffer(driver);
+		return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
+			cart_button = driver.findElement(By.id('continue-btn'));
 
-			return driver.findElements(By.css('div.cart-items > div')).then((cart_items) => {
-				if (cart_items.length > 0) {
-					return driver.findElement(By.id('continue-btn')).then((button) => {
-						return button.isEnabled().then((value) => {
-							if (value) {
-								driver.sleep(600);
-								button.click();
-								return 'Completed';
-							}
-							// else {
-							// 	driver.findElement(By.css('p.min-charge')).then((min_charge) => {
-							// 		min_charge.isDisplayed().then((val) => {
-							// 			if (val) {
-							// 				AddItemToCart(driver);
-							// 			}
-							// 		});
-							// 	}).catch((e) => { console.log("Cannot find Min_Charge in Cart \n" + e); });
-							// }
-						});
-					}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });
-				}
-			}).catch((e) => { console.log("Cannot continue to checkout \n" + e); });
-		}
+			if (cart_items.length > 0) {
+				return driver.wait(until.elementIsEnabled(cart_button), 1500).then(() => {
+					cart_button.click();
+					return 'Completed';
+				}).catch((e) => { console.log("Cannot find Button in Cart \n" + e); });
+			}
+		}).catch((e) => { console.log("Cannot continue to checkout \n" + e); });
 	}).catch((e) => { console.error('Shop isnt Blue Shark \n' + e); });
 }

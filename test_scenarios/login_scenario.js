@@ -6,21 +6,20 @@ const login = require('../test_cases/login');
 
 exports.Login = (driver, chromeSettings, url, creds) => {
 	test.describe('Login Functionality Tests', function() {
+		this.timeout(20000);
+		this.slow(7500);
+		
 		test.beforeEach(function() {
 			driver = new webdriver
 				.Builder()
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
-
-			driver.manage().window().maximize();
 		});
 		test.afterEach(function() {
 			driver.quit();
 		});
 		test.it('Successfully Login', function() {
-			this.timeout(15000);
-
 			driver.get(url);
 
 			login.Login(driver, creds).then((val) => {
@@ -28,8 +27,6 @@ exports.Login = (driver, chromeSettings, url, creds) => {
 			});
 		});
 		test.it('Try To Login With Wrong Creds', function() {
-			this.timeout(15000);
-
 			driver.get(url);
 
 			login.LoginWithWrongCreds(driver, creds).then((val) => {
