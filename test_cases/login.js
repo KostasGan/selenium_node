@@ -19,7 +19,7 @@ function LoginModalFuncs(driver, modal, creds) {
 
 	return driver.wait(until.elementIsVisible(button), 2000).then(() => {
 		button.click();
-		return driver.wait(until.elementLocated(By.css('span.user-options')), 3000).then((userlink) => {
+		return driver.wait(until.elementLocated(By.css('div.header-user > a')), 3000).then((userlink) => {
 			return driver.wait(until.elementIsVisible(userlink), 2000).then((logged_name) => {
 				return logged_name.getText().then((text) => {
 					if (text === 'Κώστας')
