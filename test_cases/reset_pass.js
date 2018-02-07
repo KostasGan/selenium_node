@@ -1,13 +1,11 @@
-const webdriver = require('selenium-webdriver'),
-    By = webdriver.By,
-    until = webdriver.until;
+let { By, until } = require('selenium-webdriver');
 
 let result_message = 'Σου στείλαμε ένα e-mail με οδηγίες για την επαναφορά του κωδικού σου. Μπορείς να συνδεθείς κάνοντας κλικ εδώ';
 
 exports.ResetPassword = (driver,creds) => {
 	console.log('Test ResetPassword Begin')
 
-	let login = driver.findElement(By.css('div.col-md-3.col-sm-4 > #header-login'));
+	let login = driver.findElement(By.css('a.user-login'));
 
 	driver.wait(until.elementIsVisible(login), 1000).catch((e) => { console.log('Test Failed: You are already logged in')});
 

@@ -10,7 +10,7 @@ exports.AddAddressAnonymous = (driver) => {
 			address_field.sendKeys('Λεωφόρος Ηρακλείου 409 Ηράκλειο');
 		});
 
-		driver.wait(until.elementLocated(By.id('react-autowhatever-1--item-0')), 2500).then((suggest) => {
+		driver.wait(until.elementLocated(By.id('react-autowhatever-1--item-0')), 2000).then((suggest) => {
 			driver.wait(until.elementIsVisible(suggest), 1500).then(() => {
 				suggest.click();
 			});
