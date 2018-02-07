@@ -15,13 +15,13 @@ exports.Register = (driver, chromeSettings, url, creds) => {
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
+
+			driver.get(url);
 		});
 		test.afterEach(function() {
 			driver.quit();
 		});
-		test.it('Successfully Login', function() {
-			driver.get(url);
-
+		test.it('Successfully Register', function() {
 			register.Register(driver, creds).then((val) => {
 				assert.equal(val, 'Completed');
 			});

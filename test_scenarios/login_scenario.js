@@ -2,6 +2,7 @@ const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const assert = require('assert');
 const login = require('../test_cases/login');
+const logout = require('../test_cases/logout');
 
 
 exports.Login = (driver, chromeSettings, url, creds) => {
@@ -15,20 +16,21 @@ exports.Login = (driver, chromeSettings, url, creds) => {
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
+
+			driver.get(url);
 		});
 		test.afterEach(function() {
 			driver.quit();
 		});
-		test.it('Successfully Login', function() {
-			driver.get(url);
-
+		test.it('Successfully Login - Successfully Logout', function() {
 			login.Login(driver, creds).then((val) => {
 				assert.ok(val);
 			});
+            logout.Logout(driver).then((val) => {
+                assert.equal(val, 'Completed');
+            });
 		});
 		test.it('Try To Login With Wrong Creds', function() {
-			driver.get(url);
-
 			login.LoginWithWrongCreds(driver, creds).then((val) => {
 				assert.equal(val, 'Completed -> Wrong Creds');
 			});

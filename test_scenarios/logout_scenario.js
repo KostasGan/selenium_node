@@ -16,12 +16,13 @@ exports.Logout = (driver, chromeSettings, url, creds) => {
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
+
+			driver.get(url);
 		});
 		test.afterEach(function() {
 			driver.quit();
 		});
 		test.it('Successfully Login - Successfully Logout', function() {
-			driver.get(url);
 
 			login.Login(driver, creds).then((val) => {
 				assert.ok(val);
