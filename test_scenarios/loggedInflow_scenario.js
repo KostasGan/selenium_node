@@ -18,16 +18,13 @@ exports.LoggedInFlow = (driver, chromeSettings, url, creds) => {
 				.forBrowser('chrome')
 				.setChromeOptions(chromeSettings)
 				.build();
+
+				driver.get(url);
 		});
-		test.beforeEach(function () {
-			driver.getWindowHandle();
-		})
 		test.after(function () {
 			driver.quit();
 		});
 		test.it('Successfully Login', function () {
-			driver.get(url);
-
 			login.Login(driver, creds).then((val) => {
 				assert.ok(val);
 			});
@@ -49,6 +46,11 @@ exports.LoggedInFlow = (driver, chromeSettings, url, creds) => {
 		});
 		test.it('Checkout and GO', function () {
 			checkout.SubmitOrder(driver, creds).then((val) => {
+				assert.equal(val, 'Completed');
+			});
+		});
+		test.it('Wait For Order Confirmation Pop', function () {
+			checkout.WaitForOrderConfirmation(driver).then((val) => {
 				assert.equal(val, 'Completed');
 			});
 		});

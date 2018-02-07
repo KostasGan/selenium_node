@@ -27,9 +27,7 @@ exports.AnonymousFlow = (driver, chromeSettings, url, creds) => {
         });
 
         test.describe("Homepage to Checkout(Login)", function () {
-
             test.it('Add Address', function () {
-                
                 address.AddAddressAnonymous(driver).then((val) => {
                     assert.ok(val);
                 });
@@ -45,8 +43,6 @@ exports.AnonymousFlow = (driver, chromeSettings, url, creds) => {
                     assert.equal(val, 'Completed');
                 });
             });
-            
-            
             test.it('Successfully Login', function () {
                 login.Login(driver, creds).then((val) => {
                     assert.ok(val);
@@ -54,6 +50,11 @@ exports.AnonymousFlow = (driver, chromeSettings, url, creds) => {
             });
             test.it('Checkout and GO', function () {
                 checkout.SubmitOrder(driver, creds).then((val) => {
+                    assert.equal(val, 'Completed');
+                });
+            });
+            test.it('Wait For Order Confirmation Popup', function () {
+                checkout.WaitForOrderConfirmation(driver).then((val) => {
                     assert.equal(val, 'Completed');
                 });
             });
@@ -103,6 +104,11 @@ exports.AnonymousFlow = (driver, chromeSettings, url, creds) => {
             });
             test.it('Checkout and GO', function () {
                 checkout.SubmitOrder(driver, creds).then((val) => {
+                    assert.equal(val, 'Completed');
+                });
+            });
+            test.it('Wait For Order Confirmation Popup', function () {
+                checkout.WaitForOrderConfirmation(driver).then((val) => {
                     assert.equal(val, 'Completed');
                 });
             });
