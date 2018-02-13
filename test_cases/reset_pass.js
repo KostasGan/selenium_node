@@ -1,37 +1,41 @@
 let { By, until } = require('selenium-webdriver');
 
-let result_message = 'Σου στείλαμε ένα e-mail με οδηγίες για την επαναφορά του κωδικού σου. Μπορείς να συνδεθείς κάνοντας κλικ εδώ';
+let result_message = 'Σου στείλαμε ένα e-mail με οδηγίες για την επαναφορά του κωδικού σου.';
+let info;
 
-exports.ResetPassword = (driver,creds) => {
-	console.log('Test ResetPassword Begin')
+function _resetPassword(driver, creds) {
+	driver.wait(until.elementLocated(By.css('div.modal-content')), 1000).then((modal) => {
+		driver.wait(until.elementIsVisible(modal), 1000);
 
-	let login = driver.findElement(By.css('a.user-login'));
+		driver.wait(until.elementIsNotVisible(modal.findElement(By.css('div.is-loading'))), 1000);
 
-	driver.wait(until.elementIsVisible(login), 1000).catch((e) => { console.log('Test Failed: You are already logged in')});
+		driver.wait(until.elementLocated(By.css('a.forgot-password-btn')), 1000).then((link) => {
+			link.click();
+		});	
+	});
 
-	login.click();
-	driver.wait(until.elementLocated(By.id('popup_login')), 1000);
+	return driver.wait(until.elementLocated(By.css('div.modal-content')), 1500).then((forgot_modal) => { 
+		driver.wait(until.elementIsVisible(forgot_modal), 1500);
 
-	let reset_pass = driver.findElement(By.css('a.forgot'));
-	driver.wait(until.elementIsVisible(reset_pass), 2000);
+		info = forgot_modal.findElement(By.css('div.forgot-password-info'));
 
-	reset_pass.click().then(() => {
-		driver.wait(until.elementLocated(By.css('form.forgot')), 1000);
+		forgot_modal.findElement(By.id('forgot_email')).sendKeys(creds.email);
 
-		let reset_email = driver.findElement(By.id('forgot_email'));
-		let submit_btn = driver.findElement(By.id('submit_btn'));
-		driver.wait(until.elementIsVisible(reset_email), 1000);
+		forgot_modal.findElement(By.css('button.button')).click();
 
-		reset_email.sendKeys(creds.email);
-		submit_btn.click().then(() => {
-			driver.wait(until.elementLocated(By.css('form.forgot')), 1000);
-
-			let reset_results = driver.findElement(By.id('forgot_results'));
-			driver.wait(until.elementIsVisible(reset_results), 5000).then(()=>{
-				console.log('ResetPassWord Test Passed');
+		return driver.wait(until.elementIsVisible(info), 5000).then(() => {
+			return info.getText().then((text) => {
+				if(text.indexOf(result_message) > -1 ){
+					return true;
+				}
 			});
 		});
-	}).catch((e)=>{
-		console.log('Element Forget doesnt exist! \n' + e);
+	});
+}
+
+exports.ResetPassword = (driver, creds) => {
+	return driver.wait(until.elementLocated(By.css('a.user-login')), 1000).then((button) => {
+		button.click();
+		return _resetPassword(driver, creds)
 	});
 }
