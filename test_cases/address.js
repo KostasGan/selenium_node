@@ -7,7 +7,7 @@ exports.AddAddressAnonymous = (driver) => {
 		button = AddressWrapper.findElement(By.css('div.geosuggest__input-wrapper > button.button-primary'));
 
 		driver.wait(until.elementLocated(By.id('geosuggest-addressbox')), 2000).then((address_field) => {
-			address_field.sendKeys('Λεωφόρος Ηρακλείου 409 Ηράκλειο');
+			address_field.sendKeys('Αριστειδου 1 μαρουσι');
 		});
 
 		driver.wait(until.elementLocated(By.id('react-autowhatever-1--item-0')), 2500).then((suggest) => {

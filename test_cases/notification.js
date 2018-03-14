@@ -1,5 +1,5 @@
 let { By, until } = require('selenium-webdriver');
-let message ;
+let message = 'Παράγγειλε τώρα τον καφέ σου από τα Coffee Lab και θα σε κεράσουν άλλον έναν, μαζί με μια σοκολάτα γαλάκτος Milk Noir από τη Lacta!';
 
 
 function UrlCheck(driver) {
@@ -24,8 +24,9 @@ exports.NotificationExistance = (driver) => {
                     return 'Completed';
                 }
                 else{
+                    console.log(message);
                     console.log(msg);
-                    return 'Completed';
+                    return 'Failed';
                 }
             });
         });
@@ -38,7 +39,7 @@ exports.NotificationEligible = (driver) => {
     return driver.wait(UrlCheck).then((val) => {
         if(val){
             return driver.wait(until.elementLocated(By.id('shops')), 1000).then((shopList) => {
-                return shopList.findElements(By.css('a.button[href*="/simply-burgers"]')).then((shops) => {
+                return shopList.findElements(By.css('a.button[href*="/coffee-lab"]')).then((shops) => {
                     if(shops.length > 0){
                         return 'Eligible';
                     }
@@ -55,7 +56,7 @@ exports.NotificationEligible = (driver) => {
 }
 
 exports.CloseNotification = (driver) => {
-    return driver.wait(until.elementLocated(By.css('li.promo-message')), 1500).then((notification) => {
+    return driver.wait(until.elementLocated(By.css('li.promo-message')), 2000).then((notification) => {
         driver.wait(until.elementIsVisible(notification), 1500);
 
         return notification.findElement(By.css('button.promo-message-close')).click().then(() => {
